@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahlet Archive · ማኅሌት</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Noto+Serif+Ethiopic:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#EAE0C8;
+    --parchment-dark:#DFD2AF;
+    --ink:#2B1B12;
+    --ink-soft:#5A4632;
+    --red:#7C2020;
+    --red-dark:#5A1616;
+    --gold:#B8892B;
+    --gold-light:#E0C36F;
+    --indigo:#1B2A4A;
+    --indigo-dark:#121D33;
+    --verdigris:#3D6B54;
+    --verdigris-light:#E4EEE8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background-color:var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.16, 0 0 0 0 0.1, 0 0 0 0 0.06, 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    color:var(--ink);
+    font-family:'Lora', serif;
+    line-height:1.6;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif; font-weight:600;}
+  h2{
+    padding-bottom:12px;
+    margin-bottom:20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='7'%3E%3Cpolygon points='0,7 6,0 12,7' fill='%237C2020'/%3E%3Cpolygon points='12,7 18,0 24,7' fill='%23B8892B'/%3E%3Cpolygon points='24,7 30,0 36,7' fill='%233F6B4F'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom left;
+    background-size: 24px 6px;
+  }
+  .amharic{font-family:'Noto Serif Ethiopic', serif;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  /* tibeb — traditional Ethiopian woven border pattern */
+  .interlace{
+    height:12px;
+    width:100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='12'%3E%3Cpolygon points='0,12 10,0 20,12' fill='%237C2020'/%3E%3Cpolygon points='20,12 30,0 40,12' fill='%23B8892B'/%3E%3Cpolygon points='40,12 50,0 60,12' fill='%233F6B4F'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 60px 12px;
+  }
+
+  header.band{
+    background:var(--indigo);
+    color:var(--parchment);
+    padding:28px 20px 22px;
+  }
+  .header-inner{
+    max-width:1000px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .cross-mark{flex-shrink:0;}
+  .titles{flex:1; min-width:200px;}
+  .titles .en{font-size:26px; color:var(--gold-light); margin:0;}
+  .titles .am{font-size:17px; margin:2px 0 0; color:#D9CDA8;}
+  .search-wrap{width:100%; margin-top:18px;}
+  .search-wrap input{
+    width:100%;
+    padding:12px 16px;
+    border-radius:6px;
+    border:1px solid var(--gold);
+    background:rgba(255,255,255,0.06);
+    color:var(--parchment);
+    font-family:'Lora', serif;
+    font-size:15px;
+  }
+  .search-wrap input::placeholder{color:#B7AE8E;}
+  .search-wrap input:focus{outline:2px solid var(--gold-light); background:rgba(255,255,255,0.1);}
+  .nav-tabs{display:flex; gap:8px; margin-top:12px;}
+  .nav-tab{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    background:transparent;
+    border:1px solid rgba(224,195,111,0.4);
+    color:#C9BE9C;
+    padding:7px 14px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  .nav-tab.active{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:var(--indigo-dark);
+    font-weight:600;
+  }
+  .nav-tab:hover:not(.active){border-color:var(--gold-light); color:var(--gold-light);}
+
+  main{max-width:1000px; margin:0 auto; padding:28px 20px 80px;}
+
+  .crumbs{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:18px;
+    cursor:pointer;
+  }
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--red);}
+  .crumbs .sep{margin:0 6px; color:var(--gold);}
+
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+    margin-top:8px;
+  }
+  @media (max-width:600px){ .cat-grid{grid-template-columns:1fr;} }
+
+  .cat-card{
+    background:#F3ECD9;
+    border:1px solid var(--parchment-dark);
+    border-left:4px solid var(--gold);
+    border-radius:4px;
+    padding:20px;
+    padding-right:44px;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cat-card::after{
+    content:'';
+    position:absolute;
+    top:10px; right:10px;
+    width:22px; height:22px;
+    opacity:0.28;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Ccircle cx='26' cy='26' r='23' fill='none' stroke='%23B8892B' stroke-width='2.5'/%3E%3Cpath d='M26 8 V44 M10 18 H42 M10 34 H42' stroke='%23B8892B' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size:contain;
+    background-repeat:no-repeat;
+  }
+  .cat-card:hover{transform:translateY(-2px); box-shadow:0 4px 14px rgba(43,27,18,0.12);}
+  .cat-card .am{font-size:20px; margin:0 0 4px; color:var(--red-dark); font-weight:600;}
+  .cat-card .en{font-size:13px; margin:0; color:var(--ink-soft); font-family:'JetBrains Mono', monospace; letter-spacing:0.02em;}
+  .cat-card .count{
+    display:inline-block;
+    margin-top:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--verdigris);
+    background:var(--verdigris-light);
+    padding:2px 8px;
+    border-radius:10px;
+  }
+
+  .song-list{display:flex; flex-direction:column; gap:10px; margin-top:10px;}
+  .song-row{
+    background:#F3ECD9;
+    border:1px solid var(--parchment-dark);
+    border-radius:4px;
+    padding:14px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+  }
+  .song-row:hover{border-color:var(--gold);}
+  .song-row .titles-sm .am{font-size:16px; margin:0;}
+  .song-row .titles-sm .en{font-size:13px; margin:2px 0 0; color:var(--ink-soft);}
+  .song-row .icons{display:flex; gap:8px; font-size:12px; color:var(--verdigris); font-family:'JetBrains Mono', monospace; white-space:nowrap;}
+
+  .detail-card{
+    background:#F3ECD9;
+    border:1px solid var(--parchment-dark);
+    border-radius:6px;
+    padding:26px;
+    position:relative;
+    overflow:hidden;
+  }
+  .detail-card::after{
+    content:'';
+    position:absolute;
+    top:14px; right:14px;
+    width:30px; height:30px;
+    opacity:0.16;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Ccircle cx='26' cy='26' r='23' fill='none' stroke='%237C2020' stroke-width='2.5'/%3E%3Cpath d='M26 8 V44 M10 18 H42 M10 34 H42' stroke='%237C2020' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size:contain;
+    background-repeat:no-repeat;
+  }
+  .detail-header{
+    padding-bottom:14px; margin-bottom:20px;
+    border-bottom:none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpolygon points='0,10 10,0 20,10' fill='%237C2020'/%3E%3Cpolygon points='20,10 30,0 40,10' fill='%23B8892B'/%3E%3Cpolygon points='40,10 50,0 60,10' fill='%233F6B4F'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-size: 40px 8px;
+  }
+  .detail-header .am{font-size:26px; margin:0;}
+  .detail-header .en{font-size:16px; color:var(--ink-soft); margin:4px 0 0; font-style:italic;}
+  .tags{margin-top:10px;}
+  .tag{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    background:var(--verdigris-light);
+    color:var(--verdigris);
+    padding:2px 8px;
+    border-radius:10px;
+    margin-right:6px;
+  }
+
+  .lyric-cols{display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; margin-top:10px;}
+  @media (max-width:900px){ .lyric-cols{grid-template-columns:1fr 1fr;} }
+  @media (max-width:640px){ .lyric-cols{grid-template-columns:1fr;} }
+  .lyric-col h3{font-size:13px; text-transform:uppercase; letter-spacing:0.05em; color:var(--gold); font-family:'JetBrains Mono', monospace; margin:0 0 8px;}
+  .lyric-col h3.amharic{font-family:'Noto Serif Ethiopic', serif; text-transform:none; letter-spacing:0; font-size:16px;}
+  .lyric-col .body-am{font-family:'Noto Serif Ethiopic', serif; font-size:19px; line-height:1.9; color:var(--ink);}
+  .lyric-col .body-en{font-size:15px; line-height:1.8; color:var(--ink-soft);}
+  .lesson-body{font-size:15px; line-height:1.85; color:var(--ink); max-width:640px; font-family:'Lora','Noto Serif Ethiopic',serif;}
+  .lesson-illustration{
+    text-align:center;
+    background:#F3ECD9;
+    border:1px solid var(--parchment-dark);
+    border-radius:6px;
+    padding:18px 10px;
+    margin-bottom:20px;
+  }
+  .photo-gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));
+    gap:8px;
+    margin:16px 0;
+  }
+  .photo-gallery a{display:block; border-radius:4px; overflow:hidden; border:1px solid var(--parchment-dark);}
+  .photo-gallery img{
+    width:100%;
+    height:100px;
+    object-fit:cover;
+    display:block;
+    transition:transform 0.15s ease;
+  }
+  .photo-gallery a:hover img{transform:scale(1.05);}
+  .lesson-heading{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    color:var(--red-dark);
+    margin:22px 0 8px;
+    border-bottom:1px solid var(--parchment-dark);
+    padding-bottom:6px;
+  }
+  .lyric-col .verse{margin:0 0 1.15em; padding-left:14px; border-left:2px solid var(--parchment-dark);}
+  .lyric-col .verse:first-of-type{border-left-color:var(--gold);}
+  .chorus-divider{
+    text-align:center;
+    color:var(--gold);
+    letter-spacing:0.14em;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    margin:16px 0;
+  }
+  .repeat-mark{
+    display:inline-block;
+    color:var(--red-dark);
+    background:var(--gold-light);
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72em;
+    padding:1px 6px;
+    border-radius:8px;
+    margin-left:4px;
+    vertical-align:middle;
+  }
+
+  .media{margin-top:24px; display:flex; flex-direction:column; gap:14px;}
+  .media iframe{width:100%; aspect-ratio:16/9; border:none; border-radius:4px;}
+  .media audio{width:100%;}
+  .media a.link{color:var(--red); text-decoration:none; font-weight:500;}
+  .media a.link:hover{text-decoration:underline;}
+
+  button, .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    background:var(--indigo);
+    color:var(--parchment);
+    border:none;
+    padding:10px 16px;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  button.secondary{background:transparent; border:1px solid var(--ink-soft); color:var(--ink-soft);}
+  button:hover{opacity:0.92;}
+
+  .fab{
+    position:sticky;
+    bottom:20px;
+    display:flex;
+    justify-content:flex-end;
+    margin-top:30px;
+  }
+
+  form.add-form{display:flex; flex-direction:column; gap:14px;}
+  form.add-form label{font-family:'JetBrains Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft);}
+  form.add-form input, form.add-form select, form.add-form textarea{
+    padding:10px 12px;
+    border:1px solid var(--parchment-dark);
+    border-radius:4px;
+    font-family:'Lora', serif;
+    font-size:14px;
+    background:#fff;
+    color:var(--ink);
+  }
+  form.add-form textarea{font-family:'Noto Serif Ethiopic','Lora',serif; min-height:100px; resize:vertical;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:600px){ .field-row{grid-template-columns:1fr;} }
+
+  .empty{
+    text-align:center;
+    padding:50px 20px;
+    color:var(--ink-soft);
+  }
+  .empty .cross-mark{margin:0 auto 14px; opacity:0.5;}
+
+  .loading{text-align:center; padding:40px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; font-size:13px;}
+  .error-msg{background:#F7E3E3; color:var(--red-dark); padding:12px 16px; border-radius:4px; font-size:14px; margin-bottom:14px;}
+  .success-msg{background:var(--verdigris-light); color:var(--verdigris); padding:12px 16px; border-radius:4px; font-size:14px; margin-bottom:14px;}
+
+  footer.site{
+    text-align:center;
+    padding:24px 20px 40px;
+    color:var(--ink-soft);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+  }
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="header-inner">
+    <div class="cross-mark">
+      <svg width="50" height="50" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="26" cy="26" r="23" stroke="#B8892B" stroke-width="1.5"/>
+        <path d="M26 8 V44 M10 18 H42 M10 34 H42" stroke="#E0C36F" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="26" cy="8" r="3.2" fill="none" stroke="#E0C36F" stroke-width="1.6"/>
+        <circle cx="26" cy="44" r="3.2" fill="none" stroke="#E0C36F" stroke-width="1.6"/>
+        <circle cx="10" cy="18" r="2.8" fill="none" stroke="#E0C36F" stroke-width="1.6"/>
+        <circle cx="42" cy="18" r="2.8" fill="none" stroke="#E0C36F" stroke-width="1.6"/>
+        <circle cx="10" cy="34" r="2.8" fill="none" stroke="#E0C36F" stroke-width="1.6"/>
+        <circle cx="42" cy="34" r="2.8" fill="none" stroke="#E0C36F" stroke-width="1.6"/>
+        <circle cx="26" cy="26" r="4.2" fill="#7C2020" stroke="#E0C36F" stroke-width="1.4"/>
+      </svg>
+    </div>
+    <div class="titles">
+      <p class="en display">Mahlet Archive</p>
+      <p class="am amharic" style="font-size:15px; letter-spacing:0.01em;">ማኅሌት · የመዝሙር ማህደር</p>
+    </div>
+    <div class="search-wrap">
+      <input id="global-search" type="text" placeholder="Search by title, lyric, or tag — Amharic or English" />
+      <div class="nav-tabs">
+        <button class="nav-tab" data-section="songs" id="tab-songs">Song Archive</button>
+        <button class="nav-tab" data-section="learn" id="tab-learn">Learn Mezmur</button>
+        <button class="nav-tab" data-section="recordings" id="tab-recordings">Service Recordings</button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="interlace"></div>
+
+<main id="app">
+  <div class="loading">Loading the archive…</div>
+</main>
+
+<footer class="site">Community hymn archive · shared with everyone who has this link</footer>
+
+<script>
+const CATEGORIES = [
+  {id:'god', en:'Songs about God', am:'መዝሙር ስለ እግዚአብሔር'},
+  {id:'mary', en:'Songs about St. Mary', am:'መዝሙር ስለ ቅድስት ማርያም'},
+  {id:'saints', en:'Saints, Angels & Martyrs', am:'ቅዱሳን፣ መላእክት እና ሰማዕታት'},
+  {id:'seasonal', en:'Seasonal Songs', am:'የወቅት መዝሙራት', subcategories:[
+    {id:'epiphany', en:'Epiphany (Timkat)', am:'ጥምቀት'},
+    {id:'fasting', en:'Fasting Period', am:'የጾም ወቅት'},
+    {id:'celebration', en:'Celebration & Commemoration', am:'በዓላት እና መታሰቢያ'}
+  ]},
+  {id:'kids', en:'Kids Songs', am:'የልጆች መዝሙር'}
+];
+
+let SONGS = [];
+let state = { section:'songs', view:'home', categoryId:null, subcategoryId:null, songId:null, searchQuery:'',
+              learnView:'home', topicId:null, lessonId:null, editLessonId:null,
+              recView:'home', recordingId:null, editRecordingId:null };
+let storageError = false;
+
+const LESSON_TOPICS = [
+  {id:'theory', en:'Mezmur Theory', am:'ትምህርተ ዜማ'},
+  {id:'kebero', en:'Kebero (Drum)', am:'ከበሮ'},
+  {id:'tsenatsil', en:'Tsenatsil (Sistrum)', am:'ጸናጽል'},
+  {id:'mequamia', en:'Mequamia (Prayer Staff)', am:'መቋሚያ'},
+  {id:'instruments', en:'Other Instruments', am:'ሌሎች የሙዚቃ መሳሪያዎች'},
+  {id:'history', en:'History & Tradition', am:'ታሪክ እና ትውፊት'}
+];
+
+let LESSONS = [];
+let RECORDINGS = [];
+
+const SEED_YADANEGN = {
+  id: 'seed-yadanegn',
+  titleAm: 'ያዳነኝን አውቀዋለው',
+  titleEn: 'Yadanegnin Awqwalehu (I have known the one who saved me)',
+  category: 'god',
+  subcategory: null,
+  lyricsAm: `\u271dያዳነኝን አውቀዋለው \u271d\nአዝማች\nያዳነኝን አውቀዋለው\nየሞተልኝ ኢዬሱስ ነው\nስለሌለኝ የምከፍለው\nስጦታዬ ምስጋና ነው (\u1361\u00d7)\n\nጭለማዬን አስወግዶ \nያበራልኝን አውቃለሁ\nሙሉ ሰው ነኝ ከንግዲህስ \nስከተለው እኖራለሁ\nየብርሃኔን ልዩ ውበት \nፊት ለፊቴ ቆሞ አየሁት\nፍቅሩ ማርኮኝ \nበመቅደሱ ሰገድኩለት አመልኩት\nላመስግነው ላመስግነው ላመስግነው\nፍቅሩ ማያልቅ ነው(\u1361\u00d7)\n\n\u2665\u2022\u2508\u2508\u2022\u25cf\u25c9አዝ\u25c9\u25cf\u2022\u2508\u2508\u2022\u2665\n\nአሳደረኝ በእቅፉ \nመጠውለጌን አለምልሞ\nበመስቀል ላይ ተሰቀለ \nዳንኩኝ እኔ እርሱ ታሞ\nበማይዝለው ክንዶቹ ላይ \nእኔን በክብር እያኖረ\nእንዲመቸኝ ዝቅ ብሎ \nበበረት ውስጥ እርሱ አደረ\nላመስግነው ላመስግነው ላመስግነው \nፍቅሩ ማያልቅ ነው(\u1361\u00d7)\n\n\u2665\u2022\u2508\u2508\u2022\u25cf\u25c9አዝ\u25c9\u25cf\u2022\u2508\u2508\u2022\u2665\n\nቅኔ ባፈስ ምን ይደንቃል \nደሙን በመስቀል አፍስሶ\nስለ ልጁ መዳን ብሎ \nነፍሱን ሳይቀር ለኔ ክሶ\nፍቅር ይዞት ከጸባኦት \nበትትና መቶ ወርዶ \nተቀደስኩኝ በነጩ በግ \nቀራንዮ ጌታ ታርዶ\nላመስግነው ላመስግነው ላመስግነው \nፍቅሩ ማያልቅ ነው(\u1361\u00d7)\n\n\u2665\u2022\u2508\u2508\u2022\u25cf\u25c9አዝ\u25c9\u25cf\u2022\u2508\u2508\u2022\u2665\n\nአክሊል ከሶ አጠለቀ \nግርማ ክብሩን ሁሉ ትቶ\nአሻገረኝ ወደ ክብሬ \nበቅዱስ ደም እኔን ዋጅቶ\nአጎንብሶ ቀና አረገኝ \nፊቴን በጽድቅ እያበረ \nእኖራለሁ ለዘለአለም \nካከበረኝ ጌታ ጋራ\nላመስግነው ላመስግነው ላመስግነው \nፍቅሩ ማያልቅ ነው(\u1361\u00d7)\n\n\u2665\u2022\u2508\u2508\u2022\u25cf\u25c9አዝ\u25c9\u25cf\u2022\u2508\u2508\u2022\u2665(\u1361\u00d7)`,
+  translit: `\u271d Yadanegninn Awqewalew \u271d\n(Chorus)\nYadanegninn awqewalew\nYemotelegn Iyesus new\nSile lelegn yemikefelew\nSitotay\u0113 misgana new (x2)\n\nChilemayen aswegdo\nYaberalegnin awqallehu\nMulu sew negn kenegidihis\nSikettelew enoralehu\nYe birhan\u0113n liyu wibet\nFit lefit\u0113 qomo ayehut\nFiqru marikoñ\nBemeqdesu segedkulet amelkut\nLamesginew lamesginew lamesginew\nFiqru mayaleq new (x2)\n\n(Chorus)\n\nAsaderegn beikfu\nMe\u1e6dewlegēn alemilmo\nBemesqel lay teseqele\nDanikugn ine irsu tamo\nBemayizlew kindochu lay\nInen bekibr eyanore\nEndimechegn ziqq bilo\nBebaret wist irsu adere\nLamesginew lamesginew lamesginew\nFiqru mayaleq new (x2)\n\n(Chorus)\n\nQin\u0113 bafes min yidenqal\nDemun bemesqel afsiso\nSile lijju medan bilo\nNefsun sayqer len\u0113 kiso\nFiqir yizot ketsebaot\nBetihitina hono werdo\nTeqedeskugn benechu beg\nQeranyo geta tarido\nLamesginew lamesginew lamesginew\nFiqru mayaleq new (x2)\n\n(Chorus)\n\nAklil keso a\u1e6deleqe\nGirma kibru hulu tito\nAshagerugn wede kibr\u0113\nBeqidus dem inen wajito\nAgonibiso qena aregegn\nFit\u0113n betsidiq eyabere\nEnoralehu lezelalem\nKakeberegn geta gara\nLamesginew lamesginew lamesginew\nFiqru mayaleq new (x2)\n\n(Chorus x2)`,
+  lyricsEn: `(Chorus)\nI have known the one who saved me,\nit is Jesus who died for me.\nSince I have nothing else to give,\nmy gift is praise. (x2)\n\nHe drove away my darkness,\nI know the one who gives me light.\nFrom now on I am whole,\nI will live by following him.\nThe unique beauty of my light \u2014\nI saw him standing before me, face to face.\nHis love captured me;\nin his sanctuary I bowed down and worshipped him.\nLet me praise him, let me praise him, let me praise him \u2014\nhis love never ends. (x2)\n\n(Chorus)\n\nHe held me in his embrace, [reading uncertain: reviving what had withered in me]\nhe was crucified on the cross;\nI was saved while he suffered.\nOn his arms that never tire,\nhe carries me in honor.\nHe lowered himself for my sake,\nand stayed in a manger himself.\nLet me praise him\u2026 his love never ends. (x2)\n\n(Chorus)\n\nWhat wonder is it if I pour out a hymn,\nwhen he poured out his blood on the cross \u2014\nfor the salvation of his child,\neven giving up his very soul for me.\nLove carried him down from the Lord of hosts, [reading uncertain: descending in humility]\nI was made holy by the spotless lamb,\nthe Lord, slaughtered at Golgotha.\nLet me praise him\u2026 his love never ends. (x2)\n\n(Chorus)\n\nHe wore a crown, [reading uncertain on this line]\nsetting aside all his majesty and glory.\nHe carried me across into my own glory,\nredeeming me with his holy blood.\nHe bent low to lift me up,\nbrightening my face with righteousness.\nI will live forever\nwith the Lord who has honored me.\nLet me praise him\u2026 his love never ends. (x2)\n\n(Chorus x2)`,
+  audioUrl: 'https://cdn.jsdelivr.net/gh/aberadawit-web/mahlet-audio@main/yadanegnin.mp3',
+  videoUrl: '',
+  tags: ['crucifixion','salvation','love of Christ'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_IMEBETE_MARYAM = {
+  id: 'seed-imebete-maryam',
+  titleAm: '✧እመቤቴ ማርያም እመቤቴ✧',
+  titleEn: 'Imebete Maryam Imebete (My Lady Mary, my Lady)',
+  category: 'mary',
+  subcategory: null,
+  lyricsAm: `✧እመቤቴ ማርያም እመቤቴ✧\n\nአዝማች\nእመቤቴ ማርያም እመቤቴ(፪×)\nካንቺ ተወለደ የሦራዊት ጌታ\nእመቤቴ ማርያም ይድረስሽ ሰላምታ(፪×)\n\nሕይወቱን የሠጠ ፍጹም ለሰላም\nሁሉንም የሚችል ያለ በአርያም\nየአምላከ ማደሪያ ድንግል ማርያም\nጌታ የመረጠሽ እስከ ዘላለም(፪×)\n\n✥•┈┈•●◉አዝ◉●•┈┈•✥\n\nላንቺ ሊያስተላልፍ ገብርኤል ሰላምታ\nከንጉሥ ተልቆ ከሠራዊት ጌታ\nሰላም ላንቺ ይሁን ብሎ ያበሠረሽ\nእመቤቴ ማርያም ምስጋና ይድረስሽ(፪×)\n\n✥•┈┈•●◉አዝ◉●•┈┈•✥\n\nየምድር ባለጎች ሲማልሱ ራትሽ\nየሰማይ መላእክት ምስጋና ያቅርቡልሽ\nአሕዛብ ይንበርክኩ ለጎያሉ ልጅሽ\nክብር ይገባሻል በእናትነትሽ(፪×)\n\n✥•┈┈•●◉አዝ◉●•┈┈•✥`,
+  translit: `Imebete Maryam Imebete\n\n(Chorus)\nImebete Maryam imebete (x2)\nKanchi tewelede yeserawit geta\nImebete Maryam yidresish selamta (x2)\n\nHiywetun yesetʼe fitsum lesalam\nHulunimi yemichil yale be'aryam\nYe'amlake maderiya dingil Maryam\nGeta yemeretesh eske zelalem (x2)\n\n(Chorus)\n\nLanchi liyastelalif Gebriel selamta\nKenigusi telqo kesserawit geta\nSelam lanchi yihun bilo yabeseresh\nImebete Maryam misgana yidresesh (x2)\n\n(Chorus)\n\nYemidir baletsigoch simalsu ratish\nYesemay melaikt misgana yaqiribulish\nAhzab yinberkiku legoyalu lijish\nKibr yigebashal be'inatinetish (x2)\n\n(Chorus)`,
+  lyricsEn: `(Chorus)\nMy Lady Mary, my Lady (x2)\nFrom you was born the Lord of Hosts\nMy Lady Mary, may greetings reach you (x2)\n\nHe gave his life completely, for peace\nThe Almighty who dwells in the highest heaven\nVirgin Mary, dwelling place of God\nThe Lord who chose you forever (x2)\n\n(Chorus)\n\nGabriel came bearing a greeting to you\nsent from the King, the Lord of Hosts\nannouncing to you, "peace be upon you"\nMy Lady Mary, may praise reach you (x2)\n\n(Chorus)\n\n[reading uncertain: the rulers of the earth pay you homage]\nThe angels of heaven bring you praise\n[reading uncertain: the nations bow before your glorious child]\nGlory befits you for your motherhood (x2)\n\n(Chorus)`,
+  audioUrl: 'https://cdn.jsdelivr.net/gh/aberadawit-web/mahlet-audio@main/%E1%8A%A5%E1%88%98%E1%89%A4%E1%89%B4%20%E1%88%9B%E1%88%AD%E1%8B%AB%E1%88%9D%20%E1%8A%A5%E1%88%98%E1%89%A4%E1%89%B4.mp3',
+  videoUrl: '',
+  tags: ['Theotokos','Annunciation','St. Mary'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_YARED_LESSON = {
+  id: 'lesson-st-yared-biography',
+  titleAm: 'ቅዱስ ያሬድ',
+  titleEn: 'Saint Yared — Father of Ethiopian Sacred Music',
+  topic: 'history',
+  body: `Saint Yared (Ge'ez: ቅዱስ ያሬድ) is the man credited with the entire tradition this archive exists to preserve. Nearly every hymn on this site — every zema, every mode, every rhythm — traces its origin back to him.
+
+## Early life
+
+Yared was born in Aksum around 505 AD, during the height of the Aksumite kingdom, to his father Isaac and his mother Christina. When Yared was about seven years old, his father died, and his mother placed him in the care of her brother, a priest named Gidewon, so that he could be raised and educated in the church.
+
+## The caterpillar and the three birds
+
+Tradition holds that young Yared struggled badly with his studies. Discouraged and ashamed after repeated failures, he ran away from his uncle's tutelage. Caught in a storm, he took shelter under a tree, where he noticed a caterpillar trying again and again to climb up to a leaf, falling back each time but never stopping — until, after many attempts, it finally succeeded. Moved by the small creature's persistence, Yared returned to his studies with new resolve, and this time excelled.
+
+Later, as a young cleric, Yared is said to have encountered three birds — understood in the tradition as a symbol of the Holy Trinity — who taught him a heavenly language and led him into paradise, where he heard the angels singing hymns of praise. He returned from this vision carrying the melodies that would become the foundation of Ethiopian sacred chant.
+
+## Composing the zema
+
+Yared is credited with composing the entire body of Ethiopian Orthodox liturgical chant, known as zema, along with Ethiopia's own system of musical notation (melekket) — marks placed above the Ge'ez text to guide the singer's melody, rhythm, and ornamentation.
+
+He organized the chant into three principal modes, each suited to a different liturgical mood:
+— Ge'ez: a plain, steady mode used for ordinary days
+— Ezel: a slower, more solemn mode used for mourning and funerals
+— Araray: a lighter, more festive mode used for celebrations
+
+He is also credited with five major chant books still used in the Church today, including the Deggua (chants for Sundays and feast days), the Tsome Deggua (chants for the fasting season), the Meraf, the Zimare, and the Mawases (funeral chants).
+
+## Before the emperor
+
+According to tradition, Yared once performed his chant before Emperor Gebre Meskel. Both singer and emperor became so absorbed in the beauty of the chant that neither noticed the emperor's spear had slipped and pierced Yared's foot — the emperor only realized what had happened once the hymn ended. Struck by this, Yared asked the emperor's permission to leave royal life and devote himself entirely to prayer and asceticism.
+
+## Later life and legacy
+
+Yared spent his final years in the Semien Mountains, living simply and in constant prayer, and died around 571 AD. He is remembered every year on his feast day, 11 Genbot (May 19) on the Ethiopian calendar.
+
+Every time this archive's songs are sung — whether in the Ge'ez mode on an ordinary Sunday or the Araray mode at a feast — it continues a tradition of chant that Ethiopian Christians trace directly back to Saint Yared, some fifteen centuries ago.`,
+  audioUrl: '',
+  videoUrl: '',
+  tags: ['Saint Yared','founder of zema','biography','history'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_KEBERO_VIDEO_LESSON = {
+  id: 'lesson-kebero-video-1',
+  titleAm: '',
+  titleEn: 'Kebero Playing — Video',
+  topic: 'kebero',
+  body: `A video reference for learning kebero (drum) playing in the mezmur tradition. Edit this lesson to add notes on the rhythm, technique, or context shown in the video.`,
+  audioUrl: '',
+  videoUrl: 'https://youtu.be/AM1sGjyLFLc?si=EqcYxsiD6BHpuaUf',
+  tags: ['kebero','drum','video'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_KEBERO_THEORY_LESSON = {
+  id: 'lesson-kebero-theory',
+  titleAm: 'ከበሮ — ሥነ ልቦናዊና መንፈሳዊ ትርጓሜ',
+  titleEn: 'Kebero — Theory and Meaning',
+  topic: 'kebero',
+  body: `## English
+
+The kebero (ከበሮ) is a large, double-headed cylindrical drum carved from a single hollowed log, its two ends covered with stretched hide and laced tight with leather cord. Its name comes from the Amharic verb makber — "to honor" or "to celebrate" — a name that describes exactly what the drum is for: honoring God and marking the Church's great celebrations.
+
+Its two drumheads are different sizes and produce different pitches — a smaller, higher-pitched head, and a larger, deeper one. Some Ethiopian Orthodox teaching reads spiritual meaning into this construction: the smaller head as representing the Old Testament — the Law and the Prophets — and the larger head as the New Testament, the Gospel and the saving work of Christ. This is a devotional reading passed down within the tradition rather than a fixed, universally-codified doctrine, but it's a meaningful way many understand the instrument.
+
+The kebero has a scriptural basis the Church points to directly. Psalm 150 calls the faithful to praise God "with timbrel and dance," and 1 Samuel 10:5 and 16:23 both mention drums among the instruments played by companies of prophets. On this basis, the Holy Synod recognizes the kebero — together with the tsenatsil and mequamia — as one of the three official instruments of mahlet (ማህሌት, the Church's sung praise). This sets it apart from instruments like the krar, masenqo, begena, washint, and embilta, which have biblical grounding of their own but belong to communal and personal devotional song rather than the liturgy of the sanctuary itself.
+
+Playing the kebero is a skill taught formally, in the same church music schools (aqwaqwam bet) where cantors learn chant and liturgical dance together. Its steady, deep pulse anchors the rhythm of the whole service — setting the pace of the chant, the movement of the dancers, and the procession.
+
+## አማርኛ
+
+ከበሮ ከአንድ ግንድ ተጎልጉሎ የተሠራ ባለ ሁለት ገጽታ ከበሮ ሲሆን፣ በሁለቱም ጫፎቹ በቆዳ ተለጥፎ በጠፍር ይታሠራል። ስሙም ከ"ማክበር" ከሚለው የአማርኛ ግስ የመጣ ሲሆን ትርጉሙም የከበሮውን ተግባር በትክክል ይገልጻል፦ እግዚአብሔርን ማክበርና የቤተ ክርስቲያንን ታላላቅ በዓላት ማክበር።
+
+ሁለቱ የከበሮ ገጽታዎች የተለያየ መጠንና ድምጽ አላቸው፤ ትንሹ ገጽታ ከፍ ያለ ድምጽ ሲኖረው፣ ትልቁ ደግሞ ጥልቅ ድምጽ ያሰማል። አንዳንድ የቤተ ክርስቲያን ትውፊታዊ ትምህርቶች ይህንን አሠራር በመንፈሳዊ ትርጉም ይመለከቱታል፦ ትንሹ ገጽታ ብሉይ ኪዳንን፣ ሕግንና ነቢያትን ሲወክል፣ ትልቁ ገጽታ ደግሞ ሐዲስ ኪዳንን፣ ወንጌልንና የክርስቶስን የማዳን ሥራ ይወክላል ተብሎ ይታመናል። ይህ ትርጓሜ የተወሰነ ትውፊታዊ አረዳድ እንጂ ፍጹም የተደነገገ የቤተ ክርስቲያን ትምህርት አይደለም፤ ነገር ግን መሣርያውን ለመረዳት ብዙዎች የሚጠቀሙበት መንፈሳዊ አተያይ ነው።
+
+ቤተ ክርስቲያን ለከበሮ አጠቃቀም መጽሐፍ ቅዱሳዊ መሠረት ትጠቅሳለች፤ መዝሙር ፻፶ ምዕመናንን "በከበሮና በዘፈን" እግዚአብሔርን እንዲያመሰግኑ ይጠራል፣ ፩ኛ ሳሙኤል ፲፡፭ እና ፲፮፡፳፫ ደግሞ ከበሮን ከነቢያት ማኅበር የዜማ መሣርያዎች መካከል ይጠቅሳሉ። በዚህ መሠረት ቅዱስ ሲኖዶስ ከበሮን ከጸናጽልና ከመቋሚያ ጋር ከሦስቱ ኦፊሴላዊ የማህሌት መሣርያዎች አንዱ አድርጎ ይቆጥረዋል፤ ይህም እንደ በገና፣ መሰንቆ፣ ዋሽንትና እምቢልታ ካሉ በማኅበራዊና በግል መዝሙር ከሚያገለግሉ መሣርያዎች ይለየዋል።
+
+ከበሮን መጫወት በካህናትና በዲያቆናት በአቋቋም ቤት (የቤተ ክርስቲያን የዜማና የውዝዋዜ ትምህርት ቤት) በመደበኛነት የሚሰጥ ትምህርት ነው፤ በዚያም ዜማንና ማህሌታዊ ውዝዋዜን አብረው ይማራሉ። የከበሮው ጽኑ ምት የመላውን አገልግሎት ምት ይመራል፤ የዜማውን፣ የተዋንያኑን እንቅስቃሴና የሰልፉን ፍጥነት ይወስናል።`,
+  audioUrl: '',
+  videoUrl: '',
+  tags: ['kebero','theory','bilingual'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_TSENATSIL_LESSON = {
+  id: 'lesson-tsenatsil',
+  titleAm: 'ጸናጽል',
+  titleEn: 'Tsenatsil — the Sistrum',
+  topic: 'tsenatsil',
+  body: `## English
+
+The tsenatsil (ጸናጽል) is a metal rattle — three or four thin rods strung with jingling discs, mounted horizontally through a U-shaped frame with a handle. Shaken and struck in the hand, it produces a shimmering, ringing sound that's instantly recognizable in Ethiopian Orthodox worship.
+
+It's considered one of the oldest percussion instruments used in the Ethiopian Church, closely related to the ancient Egyptian sistrum. Tradition closely associates it with Saint Yared himself — in Ethiopian religious paintings, he's frequently depicted holding one. Its sound is often described as evoking the rustling of angels' wings, and some traditional accounts read symbolic meaning into its construction: the frame and rods linked to biblical imagery such as the Ark of the Covenant or Jacob's ladder, and the jingling discs to the Holy Trinity.
+
+The tsenatsil is played standing, in coordinated rhythm alongside the kebero and the chant itself, during the liturgical dance (aquaquam). Traditionally, it's played only by ordained deacons and priests, never casually. Its movement is tightly tied to the character of the chant being sung: for long, sustained vocal passages, the sistrum is moved right and left, up and down, in a pattern called maragd, in coordination with the swaying of the mequamia; for shorter, quicker vocal phrases, the player lifts the sistrum and pushes its base forward instead. Every vocal style has its own specific motion, and all of it is guided by the zema itself — the chant leads, and the instruments follow.
+
+## አማርኛ
+
+ጸናጽል ከሦስት ወይም ከአራት ቀጭን ብረት ዘንጎች የተሠራ፣ በደወል ቅርጽ ባሉ ወርቃማ ወይም ብር ቀለበቶች የተንጠለጠሉ፣ በU ቅርጽ ባለው ክፈፍና እጀታ የተያያዘ የብረት ንዋይ ነው። በእጅ ሲነቀነቅ ወይም ሲመታ የሚያሰማው ድምጽ በኢትዮጵያ ኦርቶዶክሳዊ አምልኮ ውስጥ ወዲያውኑ የሚታወቅ ልዩ ድምጽ ነው።
+
+ከኢትዮጵያ ቤተ ክርስቲያን ጥንታዊ የዜማ መሣርያዎች አንዱ ተደርጎ ይቆጠራል፤ ከጥንታዊው የግብጽ ጸናጽልም ጋር ተዛማጅነት አለው። ትውፊትም ከቅዱስ ያሬድ ጋር በጣም ያዛምደዋል፤ በኢትዮጵያ ሥዕላት ውስጥ ቅዱስ ያሬድ ጸናጽል ይዞ ይሣላል። ድምጹም ብዙ ጊዜ የመላእክትን የክንፍ ርችት ድምጽ ይመስላል ተብሎ ይነገራል፤ አንዳንድ ትውፊታዊ ትርጓሜዎችም አሠራሩን ከመጽሐፍ ቅዱሳዊ ምሳሌዎች ጋር ያዛምዱታል፤ ለምሳሌ ከታቦተ ጽዮን ወይም ከያዕቆብ መሰላል ጋር፣ የደወሎቹንም ተንቀሳቃሽነት ከሥላሴ ጋር።
+
+ጸናጽል የሚጫወተው ቆሞ፣ ከከበሮና ከዜማው ጋር በተስተካከለ ምት ነው፤ በተለይም በማህሌታዊ ውዝዋዜ (አቋቋም) ወቅት። በትውፊት መሠረት፣ ጸናጽልን የሚጫወቱት የተሾሙ ዲያቆናትና ካህናት ብቻ ናቸው፤ ያለ አግባብ አይጫወትም። እንቅስቃሴውም ከሚዘመረው ዜማ ባህርይ ጋር በጥብቅ የተያያዘ ነው፦ ረዥምና የተዘረጋ የድምጽ ክፍል ሲኖር፣ ጸናጽሉ ወደ ቀኝና ወደ ግራ፣ ወደ ላይና ወደ ታች ይንቀሳቀሳል፤ ይህም እንቅስቃሴ "ማራግድ" ተብሎ ይጠራል፣ ከመቋሚያውም ውዝዋዜ ጋር ተስተካክሎ ይደረጋል። ለአጭርና ፈጣን የድምጽ ክፍል ግን ተጫዋቹ ጸናጽሉን ከፍ አድርጎ መሠረቱን ወደ ፊት ይገፋል። እያንዳንዱ የዜማ ስልት የራሱ የሆነ የተለየ እንቅስቃሴ አለው፤ ሁሉም እንቅስቃሴም በራሱ በዜማው ይመራል፤ ዜማው ይመራል፣ መሣርያዎቹም ይከተላሉ።`,
+  audioUrl: '',
+  videoUrl: '',
+  tags: ['tsenatsil','sistrum','instruments','bilingual'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_MEQUAMIA_LESSON = {
+  id: 'lesson-mequamia',
+  titleAm: 'መቋሚያ',
+  titleEn: 'Mequamia — the Prayer Staff',
+  topic: 'mequamia',
+  body: `## English
+
+The mequamia (መቋሚያ) is a T-shaped or Y-shaped hand staff carried by cantors during the liturgy — leaned on, tapped, and swayed to mark rhythm and posture through long periods of standing chant.
+
+Unlike the kebero or tsenatsil, the mequamia isn't primarily a percussion instrument for producing sound. Its role is as much physical support as it is rhythmic: services can involve hours of standing chant, and the mequamia gives cantors something to steady themselves against. At the same time, its movement — swaying right and left, up and down for long, sustained vocal passages, or lifted and pushed forward for shorter phrases — is a core part of the coordinated movement known as tirkeza: the whole choir swaying their prayer staffs together in time with the melody, in the same rhythm as the tsenatsil's maragd pattern. Kebero, tsenatsil, and mequamia are all moving to the same guiding pulse of the zema at once.
+
+Like the tsenatsil, the mequamia is used only by ordained deacons and priests, and its use is learned formally in church music schools (aqwaqwam bet) alongside chant and liturgical dance.
+
+## አማርኛ
+
+መቋሚያ በካህናትና በዲያቆናት በአገልግሎት ጊዜ የሚያዝ ባለ ቲ ወይም ባለ ደብል ቅርጽ ያለው የእጅ በትር ነው፤ ረዥም ጊዜ ቆሞ በሚደረግ ዝማሬ ወቅት ተደግፎበት፣ ተነካክቶበት፣ እና ተወዛውዞበት ምትንና አቋቋምን ለማመልከት ያገለግላል።
+
+ከከበሮና ከጸናጽል በተለየ፣ መቋሚያ በዋነኝነት ድምጽ ለማሰማት የተዘጋጀ ንዋይ አይደለም። ሚናው ልክ እንደ ሥነ ምት መሣርያነቱ ያህል የአካል ድጋፍም ጭምር ነው፤ አገልግሎቶች ብዙ ሰዓት ቆሞ መዝሙር መያዝን ስለሚጠይቁ፣ መቋሚያ ካህናቱ የሚደገፉበት ነገር ይሰጣቸዋል። በተመሳሳይ ጊዜ፣ እንቅስቃሴው - ለረዥምና ለተዘረጋ ዜማ ወደ ቀኝና ወደ ግራ፣ ወደ ላይና ወደ ታች መወዛወዝ፣ ወይም ለአጭር ዜማ ከፍ ብሎ ወደ ፊት መገፋት - "ትርከዛ" ተብሎ ከሚጠራው የተስተካከለ እንቅስቃሴ ዋነኛ ክፍል ነው፤ መላው ማኅበረ ካህናት በዜማው ምት አብረው በትሮቻቸውን ይወዛወዛሉ፤ ይህም ከጸናጽሉ "ማራግድ" ምት ጋር በተመሳሳይ ስልት ይሆናል። ከበሮ፣ ጸናጽልና መቋሚያ ሁሉም በአንድ ጊዜ በዜማው በሚመራው ምት ይንቀሳቀሳሉ።
+
+እንደ ጸናጽሉ ሁሉ፣ መቋሚያንም የሚጠቀሙት የተሾሙ ዲያቆናትና ካህናት ብቻ ናቸው፤ አጠቃቀሙም ከዜማና ከማህሌታዊ ውዝዋዜ ትምህርት ጋር በአቋቋም ቤት በመደበኛነት ይሰጣል።`,
+  audioUrl: '',
+  videoUrl: '',
+  tags: ['mequamia','prayer staff','instruments','bilingual'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_INSTRUMENTS_LESSON = {
+  id: 'lesson-traditional-instruments',
+  titleAm: 'ሌሎች የሙዚቃ መሳሪያዎች',
+  titleEn: 'Other Instruments in Ethiopian Music',
+  topic: 'instruments',
+  body: `Kebero, tsenatsil, and mequamia each have their own dedicated space on this site — see their topics for details. This page covers the rest: instruments used ceremonially around the church, and instruments belonging to Ethiopian musical life more broadly rather than the liturgy itself.
+
+## Hand bells (ቃጭል)
+
+Small hand bells are used in some services, adding another layer of rhythmic sound alongside the sistrum and drum, particularly during processions and moments of praise.
+
+## Nagarit (ነጋሪት) — ceremonial kettle drum
+
+A large kettle drum, played with sticks, historically associated with royal and church processions and major public announcements or celebrations. It's a ceremonial instrument rather than one used inside the regular service itself.
+
+## Meleket (መለከት) — long trumpet
+
+A long, straight trumpet without finger holes, traditionally sounded on ceremonial occasions, including church festivals and processions.
+
+## Embilta (እምቢልታ) — one-note flute
+
+A large, simple flute with no finger holes, producing only one or two tones. It's traditionally played on ceremonial occasions rather than during regular liturgy.
+
+## Atamo (አታሞ)
+
+A small hand drum, tapped with the fingers or palm rather than played with sticks — used more in folk and popular contexts than in church.
+
+## Instruments outside the liturgy entirely
+
+A few other well-known Ethiopian instruments belong to devotional or secular life rather than the church service:
+— Begena: a large, multi-stringed lyre known as the "Harp of David," played for quiet personal devotion and meditation, especially during the fasting season of Lent.
+— Krar: a smaller, six-string lyre used in secular and popular music.
+— Masenqo: a one-string bowed lute, a favorite instrument of wandering minstrels (azmari).
+— Washint: a simple end-blown flute.`,
+  audioUrl: '',
+  videoUrl: '',
+  tags: ['instruments','overview'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_MEZMUR_THEORY_LESSON = {
+  id: 'lesson-mezmur-theory',
+  titleAm: 'ትምህርተ ዜማ',
+  titleEn: 'Mezmur Theory — Foundations of Ethiopian Sacred Chant',
+  topic: 'theory',
+  body: `## English
+
+**Zema, mezmur, and mahlet.** In everyday use, this whole tradition tends to get called "mezmur" — it's why this site carries that name. Strictly speaking, zema (ዜማ) is the broader term for the Church's entire system of sacred chant and melody; mezmur (መዝሙር) refers to a hymn or song sung within it; and mahlet (ማህሌት) is the sung praise-service itself, the act of singing together in worship. All three are set apart from zefen (ዘፈን), secular song. In practice the words overlap constantly in everyday speech, and that's fine — but it's worth knowing the distinction exists.
+
+**Origins.** Tradition holds that Saint Yared, in sixth-century Aksum, received the entire system of Ethiopian sacred chant directly from heaven. As the story goes, three birds — understood as the Holy Trinity — carried him up in a vision, where he heard the angels singing, and he returned having learned their melody and language. Yared named his very first chant Aryam (አርያም), meaning "exalted" or "the heights" — because, tradition says, he had heard it from heaven itself. Scholars still recite the old phrase describing this: "the first chant was heard from heaven." From that beginning, Yared organized everything he had received into three modes and composed the Church's major chant books.
+
+**The three modes.** Yared organized zema into three modes, understood as reflecting the Holy Trinity itself:
+
+— **Ge'ez** (ግእዝ) is associated with God the Father. It's the plain, foundational mode used on ordinary days — solemn, steady, and unornamented. Its traditional meaning is captured in the phrase "ርቱዕ ሎቱ ነአኩቶ" — "righteous is it that we give Him thanks."
+
+— **Ezel** (ዕዝል) is associated with God the Son. It's a slower, more tender mode, traditionally read as a symbol of Christ's suffering to redeem humanity — and for that reason it's the mode of fasting periods, funerals, and Holy Week.
+
+— **Araray** (አራራይ) is associated with the Holy Spirit. Its name relates to a word meaning "melting" or "moving" — a sweet, affecting melody, ornamented and joyful, used for great feasts and celebrations, expressing the grace poured out by the Spirit.
+
+Each mode carries its own pitch range, melodic character, and appropriate liturgical moment — the choice of mode isn't a stylistic preference, it's tied directly to the day, the season, and the meaning of what's being sung.
+
+**Notation — melekket.** Ethiopian chant is preserved through a system of notation called melekket: a set of roughly eight principal mnemonic signs, written above the Ge'ez text, that cue the singer toward specific melodic formulas. Unlike Western staff notation, melekket doesn't fix an exact pitch — it's a memory aid pointing to a melody the singer already carries through years of oral training with a master chanter. Some traditional teaching reads the eight core signs themselves as a standing reminder of Christ's suffering on Good Friday. The chant that follows is then performed with personal ornamentation, so no two renderings are ever quite identical, even from the same singer.
+
+**How it's taught.** Traditionally, a singer's education moves through a sequence of church schools. It begins at Nebab Bet (school of reading), learning the Ge'ez alphabet and working up to reading the Psalms of David. From there, students move to Qeddase Bet (school of the liturgy), learning the prayers and structure of the Mass. Zema Bet (school of chant) teaches Yared's melodies and notation directly. Many continue to Qene Bet (school of poetry), mastering the intricate "wax and gold" style of Ge'ez composition, and to Aqwaqwam Bet (school of sacred dance), where chant, movement, and the instruments — kebero, tsenatsil, and mequamia — are brought together. The final stage, Meshaf Bet (school of the books), turns to deep theological study of scripture and the Church Fathers. Very few complete every stage — but the ladder itself shows how tightly this archive's songs are bound up with a much larger, centuries-old system of formation.
+
+## አማርኛ
+
+**ዜማ፣ መዝሙርና ማህሌት።** በዘወትር አነጋገር ይህ ሁሉ ትውፊት "መዝሙር" ተብሎ ይጠራል፤ ይህ ድረ ገጽም ያንኑ ስም የተሸከመው ለዚህ ነው። በጥብቅ አነጋገር ግን፣ ዜማ የቤተ ክርስቲያንን ጠቅላላ የቅዱስ ዝማሬ ስርዓት የሚያመለክት ሰፊ ቃል ሲሆን፣ መዝሙር በውስጡ የሚዘመር ማንኛውም መዝሙር ወይም ዝማሬ ነው፤ ማህሌትም አብሮ የመዘመር፣ የአምልኮ ተግባር ራሱ ነው። ሦስቱም ከዘፈን፣ ማለትም ከዓለማዊ ዝማሬ የተለዩ ናቸው። በተግባር ግን ቃላቱ ተደራርበው ይነገራሉ፤ ይህም ችግር የለውም፤ ነገር ግን ልዩነታቸው መኖሩን ማወቅ ጠቃሚ ነው።
+
+**አመጣጥ።** ትውፊት እንደሚነግረን፣ ቅዱስ ያሬድ በስድስተኛው መቶ ክፍለ ዘመን በአክሱም ኖሮ፣ የኢትዮጵያን ቅዱስ ዜማ ስርዓት በሙሉ በቀጥታ ከሰማይ ተቀብሏል። እንደሚተረከው፣ ሦስት አዕዋፍ - የሥላሴ ምሳሌ ሆነው የተረዱ - በራእይ ወደ ሰማይ ወሰዱት፤ በዚያም የመላእክትን ዝማሬ ሰምቶ፣ ዜማቸውንና ቋንቋቸውን ተምሮ ተመለሰ። ቅዱስ ያሬድ የመጀመሪያውን ዜማ "አርያም" ብሎ ሰየመው፤ ትርጉሙም "ልዑል" ወይም "ከፍታ" ማለት ነው፤ ትውፊትም እንደሚለው ይህንን ዜማ የሰማው ከሰማይ ራሱ ስለሆነ ነው። ሊቃውንትም እስከ አሁን "ቀዳሚ ዜማ ተሰምአ እም ሰማይ" የሚለውን አባባል ይደግማሉ። ከዚህ መጀመሪያ በመነሳት፣ ቅዱስ ያሬድ የተቀበለውን ሁሉ በሦስት ዜማዎች አደራጅቶ የቤተ ክርስቲያንን ዋና ዋና የዜማ መጻሕፍት ደረሰ።
+
+**ሦስቱ ዜማዎች።** ቅዱስ ያሬድ ዜማን በሦስት ከፍሎታል፤ እነዚህም የሥላሴን አንድነት እንደሚያመለክቱ ይታመናል፦
+
+— **ግእዝ** ለአብ ምሳሌ ነው። ተራ በሆኑ ቀናት የሚዘመር ቀላል፣ የመሠረት ዜማ ሲሆን፣ ጭምትና ያልተንቆጠቆጠ ነው። ትርጉሙም "ርቱዕ ሎቱ ነአኩቶ" በሚለው አባባል ይገለጻል፤ ማለትም ክብርና ምስጋና ለእርሱ ይገባል ማለት ነው።
+
+— **ዕዝል** ለወልድ ምሳሌ ነው። ይበልጥ ዝግተኛና ርኅሩኅ ዜማ ሲሆን፣ ትውፊታዊ ትርጓሜውም ክርስቶስ ሰውን ለማዳን የተቀበለውን መከራ ያመለክታል፤ ለዚህም ነው በጾም ወቅት፣ በለቅሶና በሰሙነ ሕማማት የሚዘመረው።
+
+— **አራራይ** ለመንፈስ ቅዱስ ምሳሌ ነው። ስሙም ከ"ማራራት" ጋር የተያያዘ ሲሆን፣ ልብን የሚነካ ጣፋጭ ዜማ ማለት ነው፤ በደማቅ በዓላትና በምስጋና ወቅት የሚዘመር፣ የመንፈስ ቅዱስን ጸጋ የሚያሳይ ደማቅና ያጌጠ ዜማ ነው።
+
+እያንዳንዱ ዜማ የራሱ የሆነ ድምጽ ስፋት፣ የዜማ ባህርይና ተስማሚ የአገልግሎት ወቅት አለው፤ የዜማው ምርጫ የግል ምርጫ ሳይሆን በቀጥታ ከቀኑ፣ ከወቅቱና ከሚዘመረው ይዘት ትርጉም ጋር የተያያዘ ነው።
+
+**ኖታ - ምልክት።** የኢትዮጵያ ዜማ የሚጠበቀው በምልክት ተብሎ በሚጠራ የኖታ ስርዓት ነው፤ ይህም ከግእዝ ጽሑፍ በላይ ተጽፎ ዘማሪውን ወደ ተወሰነ የዜማ ስልት የሚመራ ወደ ስምንት የሚጠጉ ዋና ዋና ምልክቶች ስብስብ ነው። ከምዕራባዊው የደረጃ ኖታ በተለየ፣ ምልክት ትክክለኛ ድምጽ አይወስንም፤ ይልቁንም ዘማሪው በብዙ ዓመታት ከመምህር ጋር በቃል ትምህርት የተሸከመውን ዜማ የሚያስታውስ መሣርያ ነው። አንዳንድ ትውፊታዊ ትምህርቶች ስምንቱን ዋና ምልክቶች ራሳቸው መድኃኒታችን ኢየሱስ ክርስቶስ በዓርብ ዕለት የተቀበለውን መከራ የሚያስታውሱ ምሳሌዎች አድርገው ይመለከቷቸዋል። ከዚያ በኋላ የሚዘመረው ዜማ በግል ልምምድ ያጌጠ ስለሆነ፣ ከአንድ ዘማሪ እንኳ ሁለት ጊዜ በትክክል ተመሳሳይ ሆኖ አይዘመርም።
+
+**አስተምህሮው እንዴት ይሰጣል።** በትውፊት፣ የዘማሪ ትምህርት በተከታታይ የቤተ ክርስቲያን ትምህርት ቤቶች ውስጥ ያልፋል። በነባብ ቤት (የንባብ ትምህርት ቤት) ይጀምራል፤ የግእዝ ፊደላትን ተምሮ እስከ መዝሙረ ዳዊት ንባብ ይደርሳል። ከዚያም ወደ ቅዳሴ ቤት (የቅዳሴ ትምህርት ቤት) ይሸጋገራል፤ የቅዳሴውን ጸሎትና ሥርዓት ይማራል። ዜማ ቤት (የዜማ ትምህርት ቤት) የቅዱስ ያሬድን ዜማና ምልክት በቀጥታ ያስተምራል። ብዙዎችም ወደ ቅኔ ቤት (የቅኔ ትምህርት ቤት) ይቀጥላሉ፤ የተወሳሰበውን "ሰምና ወርቅ" የግእዝ ቅኔ አጻጻፍ ይማራሉ፤ እንዲሁም ወደ አቋቋም ቤት (የማህሌታዊ ውዝዋዜ ትምህርት ቤት)፣ በዚያም ዜማ፣ እንቅስቃሴና መሣርያዎቹ - ከበሮ፣ ጸናጽልና መቋሚያ - አንድ ላይ ይሆናሉ። የመጨረሻው ደረጃ፣ መጽሐፍ ቤት (የመጻሕፍት ትምህርት ቤት)፣ ወደ ጥልቅ የመጽሐፍ ቅዱስና የአበው ትምህርት ጥናት ያመራል። ጥቂቶች ብቻ ናቸው ሁሉንም ደረጃ የሚያጠናቅቁት፤ ነገር ግን ይህ ደረጃ በራሱ በዚህ ማህደር ውስጥ ያሉት መዝሙሮች ከምን ያህል ትልቅና ዘመናት ካስቆጠረ ስርዓት ጋር የተሳሰሩ እንደሆኑ ያሳያል።`,
+  audioUrl: '',
+  videoUrl: '',
+  tags: ['theory','zema','modes','bilingual'],
+  dateAdded: new Date().toISOString()
+};
+
+const SEED_RECORDING_20250330 = {
+  id: 'recording-2025-03-30',
+  date: '2025-03-30',
+  title: 'Sunday Service',
+  notes: '',
+  audioUrl: '',
+  videoUrl: 'https://cdn.jsdelivr.net/gh/aberadawit-web/mahlet-audio@main/service-2025-03-30-3.mp4',
+  photos: [
+    'https://cdn.jsdelivr.net/gh/aberadawit-web/mahlet-audio@main/service-2025-03-30-1.jpg',
+    'https://cdn.jsdelivr.net/gh/aberadawit-web/mahlet-audio@main/service-2025-03-30-2.jpg',
+    'https://cdn.jsdelivr.net/gh/aberadawit-web/mahlet-audio@main/service-2025-03-30-3.jpg',
+    'https://cdn.jsdelivr.net/gh/aberadawit-web/mahlet-audio@main/service-2025-03-30-4.jpg'
+  ],
+  dateAdded: new Date().toISOString()
+};
+
+const RECORDING_MIGRATIONS = [
+  {
+    id: 'add-recording-2025-03-30-v1',
+    apply(recordings){
+      if(!recordings.find(r=>r.id==='recording-2025-03-30')){ recordings.push(SEED_RECORDING_20250330); }
+    }
+  },
+  {
+    id: 'fix-recording-2025-03-30-video-v2',
+    apply(recordings){
+      const idx = recordings.findIndex(r=>r.id==='recording-2025-03-30');
+      if(idx>-1){ recordings[idx] = {...recordings[idx], videoUrl: SEED_RECORDING_20250330.videoUrl}; }
+    }
+  }
+];
+
+const LESSON_MIGRATIONS = [
+  {
+    id: 'add-st-yared-biography-v1',
+    apply(lessons){
+      if(!lessons.find(l=>l.id==='lesson-st-yared-biography')){ lessons.push(SEED_YARED_LESSON); }
+    }
+  },
+  {
+    id: 'add-kebero-video-1-v1',
+    apply(lessons){
+      if(!lessons.find(l=>l.id==='lesson-kebero-video-1')){ lessons.push(SEED_KEBERO_VIDEO_LESSON); }
+    }
+  },
+  {
+    id: 'add-traditional-instruments-v1',
+    apply(lessons){
+      if(!lessons.find(l=>l.id==='lesson-traditional-instruments')){ lessons.push(SEED_INSTRUMENTS_LESSON); }
+    }
+  },
+  {
+    id: 'traditional-instruments-trim-v2',
+    apply(lessons){
+      const idx = lessons.findIndex(l=>l.id==='lesson-traditional-instruments');
+      if(idx>-1){
+        lessons[idx] = {...lessons[idx], titleAm: SEED_INSTRUMENTS_LESSON.titleAm, titleEn: SEED_INSTRUMENTS_LESSON.titleEn, body: SEED_INSTRUMENTS_LESSON.body, tags: SEED_INSTRUMENTS_LESSON.tags};
+      }
+    }
+  },
+  {
+    id: 'traditional-instruments-expand-v3',
+    apply(lessons){
+      const idx = lessons.findIndex(l=>l.id==='lesson-traditional-instruments');
+      if(idx>-1){
+        lessons[idx] = {...lessons[idx], titleAm: SEED_INSTRUMENTS_LESSON.titleAm, titleEn: SEED_INSTRUMENTS_LESSON.titleEn, body: SEED_INSTRUMENTS_LESSON.body, tags: SEED_INSTRUMENTS_LESSON.tags};
+      }
+    }
+  },
+  {
+    id: 'add-tsenatsil-lesson-v1',
+    apply(lessons){
+      if(!lessons.find(l=>l.id==='lesson-tsenatsil')){ lessons.push(SEED_TSENATSIL_LESSON); }
+    }
+  },
+  {
+    id: 'add-mequamia-lesson-v1',
+    apply(lessons){
+      if(!lessons.find(l=>l.id==='lesson-mequamia')){ lessons.push(SEED_MEQUAMIA_LESSON); }
+    }
+  },
+  {
+    id: 'add-kebero-theory-v1',
+    apply(lessons){
+      if(!lessons.find(l=>l.id==='lesson-kebero-theory')){ lessons.push(SEED_KEBERO_THEORY_LESSON); }
+    }
+  },
+  {
+    id: 'tsenatsil-mequamia-bilingual-expand-v2',
+    apply(lessons){
+      const tIdx = lessons.findIndex(l=>l.id==='lesson-tsenatsil');
+      if(tIdx>-1){ lessons[tIdx] = {...lessons[tIdx], body: SEED_TSENATSIL_LESSON.body, tags: SEED_TSENATSIL_LESSON.tags}; }
+      const mIdx = lessons.findIndex(l=>l.id==='lesson-mequamia');
+      if(mIdx>-1){ lessons[mIdx] = {...lessons[mIdx], body: SEED_MEQUAMIA_LESSON.body, tags: SEED_MEQUAMIA_LESSON.tags}; }
+    }
+  },
+  {
+    id: 'add-mezmur-theory-v1',
+    apply(lessons){
+      if(!lessons.find(l=>l.id==='lesson-mezmur-theory')){ lessons.push(SEED_MEZMUR_THEORY_LESSON); }
+    }
+  }
+];
+
+const SEED_ENATACHIN_MARYAM = {
+  id: 'seed-enatachin-maryam',
+  titleAm: 'እናታችን ማርያም መዝሙር',
+  titleEn: 'Enatachin Maryam Mezmur (Our Mother Mary — Hymn)',
+  category: 'kids',
+  subcategory: null,
+  lyricsAm: `✞ እናታችን ማርያም ✞\n\nእናታችን ማርያም ማርያም ማርያም\nከፍጥረት ሁሉ እንዳንቺ የለም\nእንወድሻለን እኛ ህፃናት\nእንዲበዛልን የአንቺ በረከት\n\n(ቁጥር ፩)\nስምሽ ጣፋጭ እንደማር ወተት\nለፍጥረታት አዛኝ ርህርህት\nእጅግ ይደንቃል የአንቺ ቸርነት\nጫማ አዉልቀሽ ውሻን ማጠጣት\n\n✥•┈┈•●◉አዝ◉●•┈┈•✥\n\n(ቁጥር ፪)\nበሄዋን ምክንያት ገነት ቢዘጋም\nተከፍቶልናል በድንግል ማርያም\nደስ ይበለን አገኘን ነፃነት\nበልጅሽ ወጥተናል ከሰይጣን ባርነት\n\n✥•┈┈•●◉አዝ◉●•┈┈•✥\n\n(ቁጥር ፫)\nደስ ይበልሽ ገብርኤል እንዳለሽ\nበልዩ ሰላምታ እንዳመሰገነሽ\nሰላም ላንቺ ይሁን ፀጋን የተመላሽ\nእንላለን እኛም ድንግል ደስ ይበልሽ\n\n✥•┈┈•●◉አዝ◉●•┈┈•✥\n\n(ቁጥር ፬)\nፍቅርሽ ይኑርልን ሁሌ በልባችን\nይፍሰስ ምስጋናሽ ሞልቶ አንደበታችን\nለምኝልን ድንግል ሁሌ እንልሻለን\nበቤትሽ በረከት ጠግብን እናድራለን\n\n✥•┈┈•●◉አዝ◉●•┈┈•✥`,
+  translit: `Enatachin Maryam\n\n(Chorus)\nEnatachin Maryam Maryam Maryam\nKefitret hulu endanchi yelem\nEnwedishalen inya hitsanat\nEndibezalin ye'anchi bereket\n\n(Verse 1)\nSimish tafach ende mar wetet\nLefitretat azañ rihruhit\nIjig yidenqal ye'anchi chernet\nChama awliqesh wushan matsat\n\n(Chorus)\n\n(Verse 2)\nBehewan mikiniyat genet bizegam\nTekefitolinal bedingil Maryam\nDes yibelin agegnegn netsanet\nBelijish wetetegn keseytan barinet\n\n(Chorus)\n\n(Verse 3)\nDes yibelish Gebriel endalesh\nBeliyu selamta endamesegenesh\nSelam lanchi yihun tsegan yetemelash\nEnilalen inyam dingil des yibelish\n\n(Chorus)\n\n(Verse 4)\nFiqirish yinurilin hulē belibachin\nYifises misgananish molito andebetachin\nLemignilin dingil hulē enilishalen\nBebetish bereket tegibin enadralen\n\n(Chorus)`,
+  lyricsEn: `(Chorus)\nOur mother Mary, Mary, Mary\nAmong all creation there is none like you\nWe love you, we children\nMay your blessing multiply upon us\n\nYour name is sweet, like honey and milk\ncompassionate and merciful to all creatures.\nYour kindness is truly amazing —\nyou even removed your shoe to give water to a dog. [reading uncertain]\n\n(Chorus)\n\nThough paradise was closed because of Eve\nit has been opened for us through the Virgin Mary.\nLet us rejoice, we have found freedom;\nthrough your Son we have come out of Satan's slavery.\n\n(Chorus)\n\nRejoice, as Gabriel declared to you,\nas he praised you with a special greeting.\nPeace be upon you, full of grace —\nwe too say: rejoice, O Virgin.\n\n(Chorus)\n\nMay your love remain always in our hearts;\nmay your praise flow, filling our mouths.\nIntercede for us, Virgin, we always say to you;\nin your house, may we be filled and rest in blessing.\n\n(Chorus)`,
+  audioUrl: '',
+  videoUrl: 'https://www.youtube.com/watch?v=BDNexRgkAvQ&list=RDBDNexRgkAvQ&start_radio=1',
+  tags: ['kids','St. Mary'],
+  dateAdded: new Date().toISOString()
+};
+
+const MIGRATIONS = [
+  {
+    id: 'seed-yadanegn-full-v1',
+    apply(songs){
+      const idx = songs.findIndex(s=>s.id==='seed-yadanegn');
+      if(idx>-1){ songs[idx] = {...songs[idx], translit: SEED_YADANEGN.translit, lyricsEn: SEED_YADANEGN.lyricsEn, audioUrl: SEED_YADANEGN.audioUrl}; }
+      else{ songs.push(SEED_YADANEGN); }
+    }
+  },
+  {
+    id: 'add-imebete-maryam-v1',
+    apply(songs){
+      if(!songs.find(s=>s.id==='seed-imebete-maryam')){ songs.push(SEED_IMEBETE_MARYAM); }
+    }
+  },
+  {
+    id: 'imebete-maryam-audio-v1',
+    apply(songs){
+      const idx = songs.findIndex(s=>s.id==='seed-imebete-maryam');
+      if(idx>-1 && !songs[idx].audioUrl){ songs[idx] = {...songs[idx], audioUrl: SEED_IMEBETE_MARYAM.audioUrl}; }
+    }
+  },
+  {
+    id: 'imebete-maryam-lyric-fix-v1',
+    apply(songs){
+      const idx = songs.findIndex(s=>s.id==='seed-imebete-maryam');
+      if(idx>-1){
+        songs[idx] = {...songs[idx], lyricsAm: SEED_IMEBETE_MARYAM.lyricsAm, translit: SEED_IMEBETE_MARYAM.translit, lyricsEn: SEED_IMEBETE_MARYAM.lyricsEn};
+      }
+    }
+  },
+  {
+    id: 'add-enatachin-maryam-v1',
+    apply(songs){
+      if(!songs.find(s=>s.id==='seed-enatachin-maryam')){ songs.push(SEED_ENATACHIN_MARYAM); }
+    }
+  },
+  {
+    id: 'enatachin-maryam-lyrics-v1',
+    apply(songs){
+      const idx = songs.findIndex(s=>s.id==='seed-enatachin-maryam');
+      if(idx>-1){
+        songs[idx] = {...songs[idx], lyricsAm: SEED_ENATACHIN_MARYAM.lyricsAm, translit: SEED_ENATACHIN_MARYAM.translit, lyricsEn: SEED_ENATACHIN_MARYAM.lyricsEn};
+      }
+    }
+  }
+];
+
+async function runMigrations(){
+  let applied = [];
+  try{
+    const res = await window.storage.get('applied-migrations', true);
+    applied = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){ applied = []; }
+  let songsChanged = false;
+  let lessonsChanged = false;
+  let recordingsChanged = false;
+  for(const m of MIGRATIONS){
+    if(!applied.includes(m.id)){
+      m.apply(SONGS);
+      applied.push(m.id);
+      songsChanged = true;
+    }
+  }
+  for(const m of LESSON_MIGRATIONS){
+    if(!applied.includes(m.id)){
+      m.apply(LESSONS);
+      applied.push(m.id);
+      lessonsChanged = true;
+    }
+  }
+  for(const m of RECORDING_MIGRATIONS){
+    if(!applied.includes(m.id)){
+      m.apply(RECORDINGS);
+      applied.push(m.id);
+      recordingsChanged = true;
+    }
+  }
+  if(songsChanged){ await saveSongs(); }
+  if(lessonsChanged){ await saveLessons(); }
+  if(recordingsChanged){ await saveRecordings(); }
+  if(songsChanged || lessonsChanged || recordingsChanged){
+    try{ await window.storage.set('applied-migrations', JSON.stringify(applied), true); }catch(e){}
+  }
+}
+
+function catById(id){ return CATEGORIES.find(c=>c.id===id); }
+function subById(cat, id){ return (cat.subcategories||[]).find(s=>s.id===id); }
+function genId(){ return 's' + Date.now() + Math.random().toString(36).slice(2,7); }
+
+async function loadSongs(){
+  try{
+    const res = await window.storage.get('songs-db', true);
+    SONGS = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    SONGS = [];
+  }
+  await loadLessons();
+  await loadRecordings();
+  await runMigrations();
+  render();
+}
+
+async function saveSongs(){
+  try{
+    const res = await window.storage.set('songs-db', JSON.stringify(SONGS), true);
+    if(!res){ storageError = true; }
+  }catch(e){
+    storageError = true;
+  }
+}
+
+async function loadLessons(){
+  try{
+    const res = await window.storage.get('lessons-db', true);
+    LESSONS = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    LESSONS = [];
+  }
+}
+
+async function saveLessons(){
+  try{
+    const res = await window.storage.set('lessons-db', JSON.stringify(LESSONS), true);
+    if(!res){ storageError = true; }
+  }catch(e){
+    storageError = true;
+  }
+}
+
+function topicById(id){ return LESSON_TOPICS.find(t=>t.id===id); }
+function lessonCountFor(topicId){ return LESSONS.filter(l=>l.topic===topicId).length; }
+
+async function loadRecordings(){
+  try{
+    const res = await window.storage.get('recordings-db', true);
+    RECORDINGS = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    RECORDINGS = [];
+  }
+}
+
+async function saveRecordings(){
+  try{
+    const res = await window.storage.set('recordings-db', JSON.stringify(RECORDINGS), true);
+    if(!res){ storageError = true; }
+  }catch(e){
+    storageError = true;
+  }
+}
+
+function escapeHtml(s){
+  return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function nl2br(s){ return escapeHtml(s||'').replace(/\n/g,'<br>'); }
+
+function isDividerLine(line){
+  const t = line.trim();
+  if(!t) return false;
+  if(/^\(?chorus\)?$/i.test(t)) return true;
+  const stripped = t.replace(/አዝ/g,'').trim();
+  if(stripped.length>0 && /^[♥✥•◉\-┈:()×\s0-9]+$/.test(stripped)) return true;
+  return false;
+}
+
+function highlightRepeats(escapedLine){
+  return escapedLine.replace(/(\(\s*(?:[x×]\s*\d+|\d+\s*[x×])\s*\)|\(፪\s*×\s*\))/gi, '<span class="repeat-mark">$1</span>');
+}
+
+function formatLyricBlock(raw){
+  if(!raw) return '';
+  const lines = raw.split('\n');
+  let html = '';
+  let paraLines = [];
+  const flush = () => {
+    if(paraLines.length){
+      html += `<p class="verse">${paraLines.join('<br>')}</p>`;
+      paraLines = [];
+    }
+  };
+  lines.forEach(line=>{
+    const trimmed = line.trim();
+    if(trimmed === ''){ flush(); return; }
+    if(isDividerLine(trimmed)){
+      flush();
+      html += `<div class="chorus-divider">${escapeHtml(trimmed)}</div>`;
+      return;
+    }
+    paraLines.push(highlightRepeats(escapeHtml(line)));
+  });
+  flush();
+  return html;
+}
+
+function youtubeEmbed(url){
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{6,})/);
+  return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+}
+
+function driveEmbed(url){
+  const m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]{10,})/);
+  return m ? `https://drive.google.com/file/d/${m[1]}/preview` : null;
+}
+
+function isAudioFile(url){
+  return /\.(mp3|ogg|wav|m4a)(\?.*)?$/i.test(url||'');
+}
+
+function isVideoFile(url){
+  return /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(url||'');
+}
+
+function crumbTrail(){
+  if(state.section === 'recordings'){
+    const parts = [{label:'Service Recordings', view:'home', section:'recordings'}];
+    if(state.recView==='detail'){
+      const rec = RECORDINGS.find(r=>r.id===state.recordingId);
+      if(rec) parts.push({label: rec.title || rec.date, view:'detail', section:'recordings'});
+    }
+    if(state.recView==='add'){ parts.push({label:'Add a recording', view:'add', section:'recordings'}); }
+    return parts;
+  }
+  if(state.section === 'learn'){
+    const parts = [{label:'Learn Mezmur', view:'home', section:'learn'}];
+    if(state.learnView==='topic' || state.learnView==='detail'){
+      const topic = topicById(state.topicId);
+      if(topic) parts.push({label:topic.en, view:'topic', section:'learn', topicId:topic.id});
+    }
+    if(state.learnView==='detail'){
+      const lesson = LESSONS.find(l=>l.id===state.lessonId);
+      if(lesson) parts.push({label: lesson.titleEn || lesson.titleAm, view:'detail', section:'learn'});
+    }
+    if(state.learnView==='add'){ parts.push({label:'Add a lesson', view:'add', section:'learn'}); }
+    return parts;
+  }
+  const parts = [{label:'Mahlet Archive', view:'home', section:'songs'}];
+  if(state.view==='category' || state.view==='detail'){
+    const cat = catById(state.categoryId);
+    if(cat) parts.push({label:cat.en, view:'category', section:'songs', categoryId:cat.id});
+    if(state.subcategoryId){
+      const sub = subById(cat, state.subcategoryId);
+      if(sub) parts.push({label:sub.en, view:'category', section:'songs', categoryId:cat.id, subcategoryId:sub.id});
+    }
+  }
+  if(state.view==='detail'){
+    const song = SONGS.find(s=>s.id===state.songId);
+    if(song) parts.push({label: song.titleEn || song.titleAm, view:'detail', section:'songs'});
+  }
+  if(state.view==='add'){ parts.push({label:'Add a song', view:'add', section:'songs'}); }
+  return parts;
+}
+
+function goTo(view, opts={}){
+  const section = opts.section || state.section;
+  if(section === 'recordings'){
+    state = { section:'recordings', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
+              learnView:'home', topicId:null, lessonId:null, editLessonId:null,
+              recView:view, recordingId:null, editRecordingId:null, searchQuery:'', ...opts };
+  }else if(section === 'learn'){
+    state = { section:'learn', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
+              learnView:view, topicId:null, lessonId:null, editLessonId:null,
+              recView:'home', recordingId:null, editRecordingId:null, searchQuery:'', ...opts };
+  }else{
+    state = { section:'songs', view:view, categoryId:null, subcategoryId:null, songId:null, editSongId:null,
+              learnView:'home', topicId:null, lessonId:null, editLessonId:null,
+              recView:'home', recordingId:null, editRecordingId:null, searchQuery:'', ...opts };
+  }
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderCrumbs(){
+  const trail = crumbTrail();
+  return `<div class="crumbs">` + trail.map((t,i)=>{
+    const clickable = i < trail.length - 1;
+    return (i>0?'<span class="sep">/</span>':'') +
+      `<span data-crumb="${i}" style="${clickable?'':'color:var(--ink);cursor:default;'}">${escapeHtml(t.label)}</span>`;
+  }).join('') + `</div>`;
+}
+
+function attachCrumbEvents(){
+  const trail = crumbTrail();
+  document.querySelectorAll('[data-crumb]').forEach(el=>{
+    const i = parseInt(el.dataset.crumb);
+    if(i < trail.length - 1){
+      el.addEventListener('click', ()=>{
+        const t = trail[i];
+        goTo(t.view, {section:t.section, categoryId:t.categoryId||null, subcategoryId:t.subcategoryId||null, topicId:t.topicId||null});
+      });
+    }
+  });
+}
+
+function songCountFor(catId, subId){
+  return SONGS.filter(s=> s.category===catId && (!subId || s.subcategory===subId)).length;
+}
+
+function renderHome(){
+  return `
+    ${renderCrumbs()}
+    <div class="cat-grid">
+      ${CATEGORIES.map(c=>`
+        <div class="cat-card" data-cat="${c.id}">
+          <p class="am amharic">${escapeHtml(c.am)}</p>
+          <p class="en display">${escapeHtml(c.en)}</p>
+          <span class="count">${songCountFor(c.id)} song${songCountFor(c.id)===1?'':'s'}</span>
+        </div>
+      `).join('')}
+    </div>
+    <div class="fab"><button data-goto-add>+ Add a song</button></div>
+  `;
+}
+
+function renderCategory(){
+  const cat = catById(state.categoryId);
+  if(!cat) return renderHome();
+
+  if(cat.subcategories && !state.subcategoryId){
+    return `
+      ${renderCrumbs()}
+      <h2>${escapeHtml(cat.en)} <span class="amharic" style="font-size:16px;color:var(--ink-soft);">· ${escapeHtml(cat.am)}</span></h2>
+      <div class="cat-grid">
+        ${cat.subcategories.map(s=>`
+          <div class="cat-card" data-cat="${cat.id}" data-sub="${s.id}">
+            <p class="am amharic">${escapeHtml(s.am)}</p>
+            <p class="en display">${escapeHtml(s.en)}</p>
+            <span class="count">${songCountFor(cat.id, s.id)} song${songCountFor(cat.id,s.id)===1?'':'s'}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="fab"><button data-goto-add>+ Add a song</button></div>
+    `;
+  }
+
+  const sub = state.subcategoryId ? subById(cat, state.subcategoryId) : null;
+  const list = SONGS.filter(s => s.category===cat.id && (!sub || s.subcategory===sub.id));
+  const heading = sub ? `${cat.en} · ${sub.en}` : cat.en;
+  const headingAm = sub ? sub.am : cat.am;
+
+  return `
+    ${renderCrumbs()}
+    <h2>${escapeHtml(heading)} <span class="amharic" style="font-size:16px;color:var(--ink-soft);">· ${escapeHtml(headingAm)}</span></h2>
+    ${list.length===0 ? `
+      <div class="empty">
+        <p>No songs here yet.</p>
+        <button data-goto-add>Add the first one</button>
+      </div>
+    ` : `
+      <div class="song-list">
+        ${list.map(s=>`
+          <div class="song-row" data-song="${s.id}">
+            <div class="titles-sm">
+              <p class="am amharic">${escapeHtml(s.titleAm||'—')}</p>
+              <p class="en">${escapeHtml(s.titleEn||'')}</p>
+            </div>
+            <div class="icons">
+              ${s.audioUrl?'<span>listen</span>':''}
+              ${s.videoUrl?'<span>watch</span>':''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+    <div class="fab"><button data-goto-add>+ Add a song</button></div>
+  `;
+}
+
+function buildMediaHtml(item){
+  let mediaHtml = '';
+  if(item.videoUrl){
+    if(isVideoFile(item.videoUrl)){
+      mediaHtml += `<video controls style="width:100%; border-radius:4px; background:#000;" src="${escapeHtml(item.videoUrl)}"></video>`;
+    }else{
+      const yt = youtubeEmbed(item.videoUrl);
+      mediaHtml += yt
+        ? `<iframe src="${yt}" allowfullscreen title="Video for ${escapeHtml(item.titleEn||item.titleAm)}"></iframe>
+           <a class="link" href="${escapeHtml(item.videoUrl)}" target="_blank" rel="noopener" style="display:block; margin-top:6px; font-size:13px;">Open on YouTube ↗</a>`
+        : `<a class="link" href="${escapeHtml(item.videoUrl)}" target="_blank" rel="noopener">▶ Watch video ↗</a>`;
+    }
+  }
+  if(item.audioUrl){
+    mediaHtml += isAudioFile(item.audioUrl)
+      ? `<audio controls src="${escapeHtml(item.audioUrl)}"></audio>`
+      : `<a class="link" href="${escapeHtml(item.audioUrl)}" target="_blank" rel="noopener">Listen ↗</a>`;
+  }
+  return mediaHtml;
+}
+
+function renderDetail(){
+  const song = SONGS.find(s=>s.id===state.songId);
+  if(!song) return renderHome();
+
+  const mediaHtml = buildMediaHtml(song);
+
+  return `
+    ${renderCrumbs()}
+    <div class="detail-card">
+      <div class="detail-header">
+        <p class="am">${escapeHtml(song.titleAm||'')}</p>
+        <p class="en">${escapeHtml(song.titleEn||'')}</p>
+        <div class="tags">${(song.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+      </div>
+      ${(song.lyricsAm || song.translit || song.lyricsEn) ? `
+      <div class="lyric-cols">
+        <div class="lyric-col">
+          <h3 class="amharic">አማርኛ</h3>
+          <div class="body-am">${formatLyricBlock(song.lyricsAm)}</div>
+        </div>
+        <div class="lyric-col">
+          <h3>Transliteration</h3>
+          <div class="body-en">${formatLyricBlock(song.translit)}</div>
+        </div>
+        <div class="lyric-col">
+          <h3>Translation</h3>
+          <div class="body-en">${formatLyricBlock(song.lyricsEn)}</div>
+        </div>
+      </div>
+      ` : `<p style="color:var(--ink-soft); font-size:14px;">No lyrics added yet — edit this song to add them.</p>`}
+      ${mediaHtml ? `<div class="media">${mediaHtml}</div>` : ''}
+      <div style="display:flex; gap:10px; margin-top:24px; border-top:1px solid var(--parchment-dark); padding-top:16px;">
+        <button class="secondary" id="edit-song" data-id="${song.id}">Edit</button>
+        <button class="secondary" id="delete-song" data-id="${song.id}" style="color:var(--red-dark); border-color:var(--red-dark);">Delete</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderAddForm(){
+  const editing = state.editSongId ? SONGS.find(s=>s.id===state.editSongId) : null;
+  const v = (field) => editing ? escapeHtml(editing[field]||'') : '';
+  const vRaw = (field) => editing ? (editing[field]||'') : '';
+  return `
+    ${renderCrumbs()}
+    <h2>${editing ? 'Edit song' : 'Add a song'}</h2>
+    ${storageError ? `<div class="error-msg">Something went wrong saving last time — try again.</div>` : ''}
+    <div class="detail-card">
+      <form class="add-form" id="song-form">
+        <input type="hidden" name="editId" value="${editing ? editing.id : ''}" />
+        <div class="field-row">
+          <div>
+            <label>Title (Amharic)</label>
+            <input name="titleAm" required value="${v('titleAm')}" />
+          </div>
+          <div>
+            <label>Title (English / transliteration)</label>
+            <input name="titleEn" required value="${v('titleEn')}" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Category</label>
+            <select name="category" id="cat-select" required>
+              ${CATEGORIES.map(c=>`<option value="${c.id}" ${editing && editing.category===c.id ? 'selected':''}>${escapeHtml(c.en)}</option>`).join('')}
+            </select>
+          </div>
+          <div id="sub-select-wrap" style="display:none;">
+            <label>Season</label>
+            <select name="subcategory" id="sub-select">
+              ${(catById('seasonal').subcategories).map(s=>`<option value="${s.id}" ${editing && editing.subcategory===s.id ? 'selected':''}>${escapeHtml(s.en)}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div>
+          <label>Lyrics (Amharic script)</label>
+          <textarea name="lyricsAm">${v('lyricsAm')}</textarea>
+        </div>
+        <div>
+          <label>Transliteration (Latin script)</label>
+          <textarea name="translit">${v('translit')}</textarea>
+        </div>
+        <div>
+          <label>English translation</label>
+          <textarea name="lyricsEn">${v('lyricsEn')}</textarea>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Audio link (optional)</label>
+            <input name="audioUrl" placeholder="https://..." value="${v('audioUrl')}" />
+          </div>
+          <div>
+            <label>Video link (optional)</label>
+            <input name="videoUrl" placeholder="https://youtube.com/..." value="${v('videoUrl')}" />
+          </div>
+        </div>
+        <div>
+          <label>Tags (comma separated, optional)</label>
+          <input name="tags" placeholder="e.g. tsome dagem, three saints" value="${editing ? escapeHtml((editing.tags||[]).join(', ')) : ''}" />
+        </div>
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button type="submit">${editing ? 'Save changes' : 'Save song'}</button>
+          <button type="button" class="secondary" id="cancel-add">Cancel</button>
+        </div>
+      </form>
+    </div>
+  `;
+}
+
+function renderResults(){
+  const q = state.searchQuery.trim().toLowerCase();
+  const results = SONGS.filter(s=>{
+    const hay = [s.titleAm, s.titleEn, s.lyricsAm, s.translit, s.lyricsEn, (s.tags||[]).join(' ')].join(' ').toLowerCase();
+    return hay.includes(q);
+  });
+  return `
+    <div class="crumbs"><span data-crumb="0">Mahlet Archive</span><span class="sep">/</span><span style="color:var(--ink);">Search: "${escapeHtml(state.searchQuery)}"</span></div>
+    <h2>${results.length} result${results.length===1?'':'s'}</h2>
+    ${results.length===0 ? `<div class="empty"><p>Nothing matched that search.</p></div>` : `
+      <div class="song-list">
+        ${results.map(s=>`
+          <div class="song-row" data-song="${s.id}">
+            <div class="titles-sm">
+              <p class="am amharic">${escapeHtml(s.titleAm||'—')}</p>
+              <p class="en">${escapeHtml(s.titleEn||'')}</p>
+            </div>
+            <div class="icons">
+              ${s.audioUrl?'<span>listen</span>':''}
+              ${s.videoUrl?'<span>watch</span>':''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
+function renderLearnHome(){
+  return `
+    ${renderCrumbs()}
+    <div class="cat-grid">
+      ${LESSON_TOPICS.map(t=>`
+        <div class="cat-card" data-topic="${t.id}">
+          <p class="am amharic">${escapeHtml(t.am)}</p>
+          <p class="en display">${escapeHtml(t.en)}</p>
+          <span class="count">${lessonCountFor(t.id)} lesson${lessonCountFor(t.id)===1?'':'s'}</span>
+        </div>
+      `).join('')}
+    </div>
+    <div class="fab"><button data-goto-add-lesson>+ Add a lesson</button></div>
+  `;
+}
+
+function renderTopic(){
+  const topic = topicById(state.topicId);
+  if(!topic) return renderLearnHome();
+  const list = LESSONS.filter(l=>l.topic===topic.id);
+  return `
+    ${renderCrumbs()}
+    <h2>${escapeHtml(topic.en)} <span class="amharic" style="font-size:16px;color:var(--ink-soft);">· ${escapeHtml(topic.am)}</span></h2>
+    ${list.length===0 ? `
+      <div class="empty">
+        <p>No lessons here yet.</p>
+        <button data-goto-add-lesson>Add the first one</button>
+      </div>
+    ` : `
+      <div class="song-list">
+        ${list.map(l=>`
+          <div class="song-row" data-lesson="${l.id}">
+            <div class="titles-sm">
+              <p class="am amharic">${escapeHtml(l.titleAm||l.titleEn||'—')}</p>
+              <p class="en">${escapeHtml(l.titleEn||'')}</p>
+            </div>
+            <div class="icons">
+              ${l.audioUrl?'<span>listen</span>':''}
+              ${l.videoUrl?'<span>watch</span>':''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+    <div class="fab"><button data-goto-add-lesson>+ Add a lesson</button></div>
+  `;
+}
+
+function formatProse(raw){
+  if(!raw) return '';
+  return raw.split(/\n\s*\n/).map(p=>{
+    const t = p.trim();
+    if(t.startsWith('## ')){
+      return `<h3 class="lesson-heading">${escapeHtml(t.slice(3).trim())}</h3>`;
+    }
+    return `<p style="margin:0 0 1em;">${escapeHtml(p).replace(/\n/g,'<br>')}</p>`;
+  }).join('');
+}
+
+const LESSON_ILLUSTRATIONS = {
+  'lesson-kebero-theory': `<svg viewBox="0 0 220 170" width="220" height="170" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="110" cy="150" rx="72" ry="9" fill="var(--ink)" opacity="0.08"/>
+    <path d="M52 45 L92 22 L128 22 L168 45 L148 108 L128 136 L92 136 L72 108 Z" fill="#DFD2AF" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>
+    <ellipse cx="110" cy="22" rx="38" ry="10" fill="#EDE3CF" stroke="var(--ink)" stroke-width="2"/>
+    <ellipse cx="110" cy="136" rx="28" ry="7" fill="#EDE3CF" stroke="var(--ink)" stroke-width="2"/>
+    <path d="M74 48 L146 100 M146 48 L74 100 M78 64 L142 116 M142 64 L78 116 M82 80 L138 132" stroke="var(--gold)" stroke-width="1.4" opacity="0.75"/>
+    <ellipse cx="110" cy="22" rx="38" ry="10" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity="0.6"/>
+  </svg>`,
+  'lesson-tsenatsil': `<svg viewBox="0 0 200 170" width="200" height="170" xmlns="http://www.w3.org/2000/svg">
+    <rect x="94" y="122" width="12" height="38" rx="5" fill="#8B5E2A" stroke="var(--ink)" stroke-width="1.2"/>
+    <path d="M38 122 Q38 38 100 38 Q162 38 162 122" fill="none" stroke="var(--gold)" stroke-width="6" stroke-linecap="round"/>
+    <line x1="58" y1="118" x2="58" y2="52" stroke="var(--ink-soft)" stroke-width="2"/>
+    <line x1="100" y1="120" x2="100" y2="46" stroke="var(--ink-soft)" stroke-width="2"/>
+    <line x1="142" y1="118" x2="142" y2="52" stroke="var(--ink-soft)" stroke-width="2"/>
+    <circle cx="58" cy="68" r="7.5" fill="var(--gold-light)" stroke="var(--ink)" stroke-width="1"/>
+    <circle cx="58" cy="96" r="7.5" fill="var(--gold-light)" stroke="var(--ink)" stroke-width="1"/>
+    <circle cx="100" cy="62" r="7.5" fill="var(--gold-light)" stroke="var(--ink)" stroke-width="1"/>
+    <circle cx="100" cy="90" r="7.5" fill="var(--gold-light)" stroke="var(--ink)" stroke-width="1"/>
+    <circle cx="100" cy="114" r="7.5" fill="var(--gold-light)" stroke="var(--ink)" stroke-width="1"/>
+    <circle cx="142" cy="68" r="7.5" fill="var(--gold-light)" stroke="var(--ink)" stroke-width="1"/>
+    <circle cx="142" cy="96" r="7.5" fill="var(--gold-light)" stroke="var(--ink)" stroke-width="1"/>
+  </svg>`,
+  'lesson-mequamia': `<svg viewBox="0 0 120 190" width="120" height="190" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="182" rx="20" ry="5" fill="var(--ink)" opacity="0.08"/>
+    <line x1="60" y1="22" x2="60" y2="178" stroke="#8B5E2A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M32 32 L60 16 L88 32" fill="none" stroke="#8B5E2A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="60" cy="16" r="4" fill="var(--gold)"/>
+  </svg>`
+};
+
+function renderLessonDetail(){
+  const lesson = LESSONS.find(l=>l.id===state.lessonId);
+  if(!lesson) return renderLearnHome();
+  const mediaHtml = buildMediaHtml(lesson);
+  const illustration = LESSON_ILLUSTRATIONS[lesson.id];
+  return `
+    ${renderCrumbs()}
+    <div class="detail-card">
+      <div class="detail-header">
+        <p class="am">${escapeHtml(lesson.titleAm || lesson.titleEn || '')}</p>
+        ${lesson.titleAm && lesson.titleEn ? `<p class="en">${escapeHtml(lesson.titleEn)}</p>` : ''}
+        <div class="tags">${(lesson.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+      </div>
+      ${illustration ? `<div class="lesson-illustration">${illustration}</div>` : ''}
+      <div class="lesson-body">${formatProse(lesson.body)}</div>
+      ${mediaHtml ? `<div class="media">${mediaHtml}</div>` : ''}
+      <div style="display:flex; gap:10px; margin-top:24px; border-top:1px solid var(--parchment-dark); padding-top:16px;">
+        <button class="secondary" id="edit-lesson" data-id="${lesson.id}">Edit</button>
+        <button class="secondary" id="delete-lesson" data-id="${lesson.id}" style="color:var(--red-dark); border-color:var(--red-dark);">Delete</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderLessonForm(){
+  const editing = state.editLessonId ? LESSONS.find(l=>l.id===state.editLessonId) : null;
+  const v = (field) => editing ? escapeHtml(editing[field]||'') : '';
+  return `
+    ${renderCrumbs()}
+    <h2>${editing ? 'Edit lesson' : 'Add a lesson'}</h2>
+    ${storageError ? `<div class="error-msg">Something went wrong saving last time — try again.</div>` : ''}
+    <div class="detail-card">
+      <form class="add-form" id="lesson-form">
+        <input type="hidden" name="editId" value="${editing ? editing.id : ''}" />
+        <div class="field-row">
+          <div>
+            <label>Title (Amharic, optional)</label>
+            <input name="titleAm" value="${v('titleAm')}" />
+          </div>
+          <div>
+            <label>Title (English)</label>
+            <input name="titleEn" required value="${v('titleEn')}" />
+          </div>
+        </div>
+        <div>
+          <label>Topic</label>
+          <select name="topic" required>
+            ${LESSON_TOPICS.map(t=>`<option value="${t.id}" ${editing && editing.topic===t.id ? 'selected':''}>${escapeHtml(t.en)}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label>Lesson text</label>
+          <textarea name="body" style="min-height:160px;">${v('body')}</textarea>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Audio link (optional)</label>
+            <input name="audioUrl" placeholder="https://..." value="${v('audioUrl')}" />
+          </div>
+          <div>
+            <label>Video link (optional)</label>
+            <input name="videoUrl" placeholder="https://youtube.com/..." value="${v('videoUrl')}" />
+          </div>
+        </div>
+        <div>
+          <label>Tags (comma separated, optional)</label>
+          <input name="tags" placeholder="e.g. beginner, kebero rhythm" value="${editing ? escapeHtml((editing.tags||[]).join(', ')) : ''}" />
+        </div>
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button type="submit">${editing ? 'Save changes' : 'Save lesson'}</button>
+          <button type="button" class="secondary" id="cancel-add-lesson">Cancel</button>
+        </div>
+      </form>
+    </div>
+  `;
+}
+
+function renderLearnResults(){
+  const q = state.searchQuery.trim().toLowerCase();
+  const results = LESSONS.filter(l=>{
+    const hay = [l.titleAm, l.titleEn, l.body, (l.tags||[]).join(' ')].join(' ').toLowerCase();
+    return hay.includes(q);
+  });
+  return `
+    <div class="crumbs"><span data-crumb="0">Learn Mezmur</span><span class="sep">/</span><span style="color:var(--ink);">Search: "${escapeHtml(state.searchQuery)}"</span></div>
+    <h2>${results.length} result${results.length===1?'':'s'}</h2>
+    ${results.length===0 ? `<div class="empty"><p>Nothing matched that search.</p></div>` : `
+      <div class="song-list">
+        ${results.map(l=>`
+          <div class="song-row" data-lesson="${l.id}">
+            <div class="titles-sm">
+              <p class="am amharic">${escapeHtml(l.titleAm||l.titleEn||'—')}</p>
+              <p class="en">${escapeHtml(l.titleEn||'')}</p>
+            </div>
+            <div class="icons">
+              ${l.audioUrl?'<span>listen</span>':''}
+              ${l.videoUrl?'<span>watch</span>':''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
+function renderRecordingsHome(){
+  const list = RECORDINGS.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  return `
+    ${renderCrumbs()}
+    <p style="max-width:560px; color:var(--ink-soft); margin:-4px 0 20px; font-size:14px;">
+      Recordings shared from weekly services at Abune Gebremenfes Kidus / St. George Church, Hobart.
+    </p>
+    ${list.length===0 ? `
+      <div class="empty">
+        <p>No recordings yet.</p>
+        <button data-goto-add-recording>Add the first one</button>
+      </div>
+    ` : `
+      <div class="song-list">
+        ${list.map(r=>`
+          <div class="song-row" data-recording="${r.id}">
+            <div class="titles-sm">
+              <p class="am" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--gold);">${escapeHtml(r.date||'')}</p>
+              <p class="en" style="font-size:16px; color:var(--ink);">${escapeHtml(r.title||'Sunday Service')}</p>
+            </div>
+            <div class="icons">
+              ${r.audioUrl?'<span>listen</span>':''}
+              ${r.videoUrl?'<span>watch</span>':''}
+              ${(r.photos&&r.photos.length)?'<span>photos</span>':''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+    <div class="fab"><button data-goto-add-recording>+ Add a recording</button></div>
+  `;
+}
+
+function renderRecordingDetail(){
+  const rec = RECORDINGS.find(r=>r.id===state.recordingId);
+  if(!rec) return renderRecordingsHome();
+  const mediaHtml = buildMediaHtml(rec);
+  const photos = rec.photos || [];
+  return `
+    ${renderCrumbs()}
+    <div class="detail-card">
+      <div class="detail-header">
+        <p class="am" style="font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--gold); letter-spacing:0.03em;">${escapeHtml(rec.date||'')}</p>
+        <p class="en" style="font-size:20px; margin-top:4px;">${escapeHtml(rec.title||'Sunday Service')}</p>
+      </div>
+      ${rec.notes ? `<div class="lesson-body">${formatProse(rec.notes)}</div>` : ''}
+      ${photos.length ? `
+        <div class="photo-gallery">
+          ${photos.map(url=>`<a href="${escapeHtml(url)}" target="_blank" rel="noopener"><img src="${escapeHtml(url)}" alt="Photo from ${escapeHtml(rec.date||'this service')}" loading="lazy" /></a>`).join('')}
+        </div>
+      ` : ''}
+      ${mediaHtml ? `<div class="media">${mediaHtml}</div>` : (!photos.length ? `<p style="color:var(--ink-soft); font-size:14px;">No audio, video, or photos added yet.</p>` : '')}
+      <div style="display:flex; gap:10px; margin-top:24px; border-top:1px solid var(--parchment-dark); padding-top:16px;">
+        <button class="secondary" id="edit-recording" data-id="${rec.id}">Edit</button>
+        <button class="secondary" id="delete-recording" data-id="${rec.id}" style="color:var(--red-dark); border-color:var(--red-dark);">Delete</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderRecordingForm(){
+  const editing = state.editRecordingId ? RECORDINGS.find(r=>r.id===state.editRecordingId) : null;
+  const v = (field) => editing ? escapeHtml(editing[field]||'') : '';
+  const today = new Date().toISOString().slice(0,10);
+  return `
+    ${renderCrumbs()}
+    <h2>${editing ? 'Edit recording' : 'Add a recording'}</h2>
+    ${storageError ? `<div class="error-msg">Something went wrong saving last time — try again.</div>` : ''}
+    <div class="detail-card">
+      <form class="add-form" id="recording-form">
+        <input type="hidden" name="editId" value="${editing ? editing.id : ''}" />
+        <div class="field-row">
+          <div>
+            <label>Date of service</label>
+            <input type="date" name="date" required value="${editing ? (editing.date||'') : today}" />
+          </div>
+          <div>
+            <label>Title / occasion (optional)</label>
+            <input name="title" placeholder="e.g. Sunday Service, Timkat Eve" value="${v('title')}" />
+          </div>
+        </div>
+        <div>
+          <label>Notes (optional)</label>
+          <textarea name="notes" placeholder="Any notes about this service...">${v('notes')}</textarea>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Audio link (optional)</label>
+            <input name="audioUrl" placeholder="https://..." value="${v('audioUrl')}" />
+          </div>
+          <div>
+            <label>Video link (optional)</label>
+            <input name="videoUrl" placeholder="https://youtube.com/..." value="${v('videoUrl')}" />
+          </div>
+        </div>
+        <div>
+          <label>Photo links (one per line, optional)</label>
+          <textarea name="photos" placeholder="https://... (one image link per line)" style="min-height:90px;">${editing ? escapeHtml((editing.photos||[]).join('\n')) : ''}</textarea>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button type="submit">${editing ? 'Save changes' : 'Save recording'}</button>
+          <button type="button" class="secondary" id="cancel-add-recording">Cancel</button>
+        </div>
+      </form>
+    </div>
+  `;
+}
+
+function renderRecordingsResults(){
+  const q = state.searchQuery.trim().toLowerCase();
+  const results = RECORDINGS.filter(r=>{
+    const hay = [r.date, r.title, r.notes].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  return `
+    <div class="crumbs"><span data-crumb="0">Service Recordings</span><span class="sep">/</span><span style="color:var(--ink);">Search: "${escapeHtml(state.searchQuery)}"</span></div>
+    <h2>${results.length} result${results.length===1?'':'s'}</h2>
+    ${results.length===0 ? `<div class="empty"><p>Nothing matched that search.</p></div>` : `
+      <div class="song-list">
+        ${results.map(r=>`
+          <div class="song-row" data-recording="${r.id}">
+            <div class="titles-sm">
+              <p class="am" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--gold);">${escapeHtml(r.date||'')}</p>
+              <p class="en" style="font-size:16px; color:var(--ink);">${escapeHtml(r.title||'Sunday Service')}</p>
+            </div>
+            <div class="icons">
+              ${r.audioUrl?'<span>listen</span>':''}
+              ${r.videoUrl?'<span>watch</span>':''}
+              ${(r.photos&&r.photos.length)?'<span>photos</span>':''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  document.getElementById('tab-songs').classList.toggle('active', state.section==='songs');
+  document.getElementById('tab-learn').classList.toggle('active', state.section==='learn');
+  document.getElementById('tab-recordings').classList.toggle('active', state.section==='recordings');
+  document.getElementById('global-search').placeholder = state.section==='learn'
+    ? 'Search lessons by title or topic — Amharic or English'
+    : state.section==='recordings'
+    ? 'Search recordings by date or note'
+    : 'Search by title, lyric, or tag — Amharic or English';
+
+  if(state.section === 'recordings'){
+    if(state.searchQuery){ app.innerHTML = renderRecordingsResults(); }
+    else if(state.recView==='home'){ app.innerHTML = renderRecordingsHome(); }
+    else if(state.recView==='detail'){ app.innerHTML = renderRecordingDetail(); }
+    else if(state.recView==='add'){ app.innerHTML = renderRecordingForm(); }
+  }else if(state.section === 'learn'){
+    if(state.searchQuery){ app.innerHTML = renderLearnResults(); }
+    else if(state.learnView==='home'){ app.innerHTML = renderLearnHome(); }
+    else if(state.learnView==='topic'){ app.innerHTML = renderTopic(); }
+    else if(state.learnView==='detail'){ app.innerHTML = renderLessonDetail(); }
+    else if(state.learnView==='add'){ app.innerHTML = renderLessonForm(); }
+  }else{
+    if(state.searchQuery){
+      app.innerHTML = renderResults();
+    } else if(state.view==='home'){
+      app.innerHTML = renderHome();
+    } else if(state.view==='category'){
+      app.innerHTML = renderCategory();
+    } else if(state.view==='detail'){
+      app.innerHTML = renderDetail();
+    } else if(state.view==='add'){
+      app.innerHTML = renderAddForm();
+    }
+  }
+  attachCrumbEvents();
+  attachClicks();
+}
+
+function attachClicks(){
+  document.querySelectorAll('[data-cat]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      goTo('category', {categoryId:el.dataset.cat, subcategoryId:el.dataset.sub||null});
+    });
+  });
+  document.querySelectorAll('[data-song]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const song = SONGS.find(s=>s.id===el.dataset.song);
+      if(song){
+        state.searchQuery = '';
+        document.getElementById('global-search').value = '';
+        goTo('detail', {categoryId:song.category, subcategoryId:song.subcategory||null, songId:song.id});
+      }
+    });
+  });
+  document.querySelectorAll('[data-goto-add]').forEach(el=>{
+    el.addEventListener('click', ()=> goTo('add'));
+  });
+  const cancelBtn = document.getElementById('cancel-add');
+  if(cancelBtn) cancelBtn.addEventListener('click', ()=> goTo('home'));
+
+  const catSelect = document.getElementById('cat-select');
+  const subWrap = document.getElementById('sub-select-wrap');
+  if(catSelect){
+    const toggleSub = ()=>{ subWrap.style.display = catSelect.value==='seasonal' ? 'block':'none'; };
+    catSelect.addEventListener('change', toggleSub);
+    toggleSub();
+  }
+
+  const form = document.getElementById('song-form');
+  if(form){
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(form);
+      const editId = fd.get('editId');
+      const data = {
+        titleAm: fd.get('titleAm')||'',
+        titleEn: fd.get('titleEn')||'',
+        category: fd.get('category'),
+        subcategory: fd.get('category')==='seasonal' ? fd.get('subcategory') : null,
+        lyricsAm: fd.get('lyricsAm')||'',
+        translit: fd.get('translit')||'',
+        lyricsEn: fd.get('lyricsEn')||'',
+        audioUrl: fd.get('audioUrl')||'',
+        videoUrl: fd.get('videoUrl')||'',
+        tags: (fd.get('tags')||'').split(',').map(t=>t.trim()).filter(Boolean)
+      };
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.textContent = 'Saving…';
+      submitBtn.disabled = true;
+      let target;
+      if(editId){
+        const idx = SONGS.findIndex(s=>s.id===editId);
+        if(idx>-1){ SONGS[idx] = {...SONGS[idx], ...data}; target = SONGS[idx]; }
+      }else{
+        target = {id: genId(), dateAdded: new Date().toISOString(), ...data};
+        SONGS.push(target);
+      }
+      await saveSongs();
+      goTo('detail', {categoryId:target.category, subcategoryId:target.subcategory, songId:target.id});
+    });
+  }
+
+  const editBtn = document.getElementById('edit-song');
+  if(editBtn){
+    editBtn.addEventListener('click', ()=>{
+      const song = SONGS.find(s=>s.id===editBtn.dataset.id);
+      state = {...state, view:'add', editSongId: song.id};
+      render();
+    });
+  }
+  const deleteBtn = document.getElementById('delete-song');
+  if(deleteBtn){
+    deleteBtn.addEventListener('click', async ()=>{
+      if(!confirm('Delete this song? This cannot be undone.')) return;
+      const song = SONGS.find(s=>s.id===deleteBtn.dataset.id);
+      SONGS = SONGS.filter(s=>s.id!==deleteBtn.dataset.id);
+      await saveSongs();
+      goTo('category', {categoryId:song.category, subcategoryId:song.subcategory});
+    });
+  }
+
+  document.querySelectorAll('[data-topic]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      goTo('topic', {section:'learn', topicId:el.dataset.topic});
+    });
+  });
+  document.querySelectorAll('[data-lesson]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const lesson = LESSONS.find(l=>l.id===el.dataset.lesson);
+      if(lesson){
+        document.getElementById('global-search').value = '';
+        goTo('detail', {section:'learn', topicId:lesson.topic, lessonId:lesson.id});
+      }
+    });
+  });
+  document.querySelectorAll('[data-goto-add-lesson]').forEach(el=>{
+    el.addEventListener('click', ()=> goTo('add', {section:'learn'}));
+  });
+  const cancelLessonBtn = document.getElementById('cancel-add-lesson');
+  if(cancelLessonBtn) cancelLessonBtn.addEventListener('click', ()=> goTo('home', {section:'learn'}));
+
+  const lessonForm = document.getElementById('lesson-form');
+  if(lessonForm){
+    lessonForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(lessonForm);
+      const editId = fd.get('editId');
+      const data = {
+        titleAm: fd.get('titleAm')||'',
+        titleEn: fd.get('titleEn')||'',
+        topic: fd.get('topic'),
+        body: fd.get('body')||'',
+        audioUrl: fd.get('audioUrl')||'',
+        videoUrl: fd.get('videoUrl')||'',
+        tags: (fd.get('tags')||'').split(',').map(t=>t.trim()).filter(Boolean)
+      };
+      const submitBtn = lessonForm.querySelector('button[type="submit"]');
+      submitBtn.textContent = 'Saving…';
+      submitBtn.disabled = true;
+      let target;
+      if(editId){
+        const idx = LESSONS.findIndex(l=>l.id===editId);
+        if(idx>-1){ LESSONS[idx] = {...LESSONS[idx], ...data}; target = LESSONS[idx]; }
+      }else{
+        target = {id: genId(), dateAdded: new Date().toISOString(), ...data};
+        LESSONS.push(target);
+      }
+      await saveLessons();
+      goTo('detail', {section:'learn', topicId:target.topic, lessonId:target.id});
+    });
+  }
+
+  const editLessonBtn = document.getElementById('edit-lesson');
+  if(editLessonBtn){
+    editLessonBtn.addEventListener('click', ()=>{
+      const lesson = LESSONS.find(l=>l.id===editLessonBtn.dataset.id);
+      state = {...state, section:'learn', learnView:'add', editLessonId: lesson.id};
+      render();
+    });
+  }
+  const deleteLessonBtn = document.getElementById('delete-lesson');
+  if(deleteLessonBtn){
+    deleteLessonBtn.addEventListener('click', async ()=>{
+      if(!confirm('Delete this lesson? This cannot be undone.')) return;
+      const lesson = LESSONS.find(l=>l.id===deleteLessonBtn.dataset.id);
+      LESSONS = LESSONS.filter(l=>l.id!==deleteLessonBtn.dataset.id);
+      await saveLessons();
+      goTo('topic', {section:'learn', topicId:lesson.topic});
+    });
+  }
+
+  document.querySelectorAll('[data-recording]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.getElementById('global-search').value = '';
+      goTo('detail', {section:'recordings', recordingId:el.dataset.recording});
+    });
+  });
+  document.querySelectorAll('[data-goto-add-recording]').forEach(el=>{
+    el.addEventListener('click', ()=> goTo('add', {section:'recordings'}));
+  });
+  const cancelRecordingBtn = document.getElementById('cancel-add-recording');
+  if(cancelRecordingBtn) cancelRecordingBtn.addEventListener('click', ()=> goTo('home', {section:'recordings'}));
+
+  const recordingForm = document.getElementById('recording-form');
+  if(recordingForm){
+    recordingForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(recordingForm);
+      const editId = fd.get('editId');
+      const data = {
+        date: fd.get('date')||'',
+        title: fd.get('title')||'',
+        notes: fd.get('notes')||'',
+        audioUrl: fd.get('audioUrl')||'',
+        videoUrl: fd.get('videoUrl')||'',
+        photos: (fd.get('photos')||'').split('\n').map(u=>u.trim()).filter(Boolean)
+      };
+      const submitBtn = recordingForm.querySelector('button[type="submit"]');
+      submitBtn.textContent = 'Saving…';
+      submitBtn.disabled = true;
+      let target;
+      if(editId){
+        const idx = RECORDINGS.findIndex(r=>r.id===editId);
+        if(idx>-1){ RECORDINGS[idx] = {...RECORDINGS[idx], ...data}; target = RECORDINGS[idx]; }
+      }else{
+        target = {id: genId(), dateAdded: new Date().toISOString(), ...data};
+        RECORDINGS.push(target);
+      }
+      await saveRecordings();
+      goTo('detail', {section:'recordings', recordingId:target.id});
+    });
+  }
+
+  const editRecordingBtn = document.getElementById('edit-recording');
+  if(editRecordingBtn){
+    editRecordingBtn.addEventListener('click', ()=>{
+      const rec = RECORDINGS.find(r=>r.id===editRecordingBtn.dataset.id);
+      state = {...state, section:'recordings', recView:'add', editRecordingId: rec.id};
+      render();
+    });
+  }
+  const deleteRecordingBtn = document.getElementById('delete-recording');
+  if(deleteRecordingBtn){
+    deleteRecordingBtn.addEventListener('click', async ()=>{
+      if(!confirm('Delete this recording? This cannot be undone.')) return;
+      RECORDINGS = RECORDINGS.filter(r=>r.id!==deleteRecordingBtn.dataset.id);
+      await saveRecordings();
+      goTo('home', {section:'recordings'});
+    });
+  }
+}
+
+let searchDebounce;
+document.getElementById('global-search').addEventListener('input', (e)=>{
+  clearTimeout(searchDebounce);
+  const val = e.target.value;
+  searchDebounce = setTimeout(()=>{
+    state.searchQuery = val;
+    render();
+  }, 200);
+});
+
+document.querySelectorAll('.nav-tab').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    document.getElementById('global-search').value = '';
+    goTo('home', {section: el.dataset.section});
+  });
+});
+
+loadSongs();
+</script>
+</body>
+</html>
