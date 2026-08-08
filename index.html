@@ -459,7 +459,8 @@ const LESSON_TOPICS = [
   {id:'tsenatsil', en:'Tsenatsil (Sistrum)', am:'ጸናጽል'},
   {id:'mequamia', en:'Mequamia (Prayer Staff)', am:'መቋሚያ'},
   {id:'instruments', en:'Other Instruments', am:'ሌሎች የሙዚቃ መሳሪያዎች'},
-  {id:'history', en:'History & Tradition', am:'ታሪክ እና ትውፊት'}
+  {id:'history', en:'History & Tradition', am:'ታሪክ እና ትውፊት'},
+  {id:'kids-learning', en:'Kids Learning', am:'የልጆች ትምህርት', externalUrl:'kids-learning.html'}
 ];
 
 let LESSONS = [];
@@ -1375,7 +1376,7 @@ function renderLearnHome(){
         <div class="cat-card" data-topic="${t.id}">
           <p class="am amharic">${escapeHtml(t.am)}</p>
           <p class="en display">${escapeHtml(t.en)}</p>
-          <span class="count">${lessonCountFor(t.id)} lesson${lessonCountFor(t.id)===1?'':'s'}</span>
+          <span class="count">${t.externalUrl ? 'Open interactive lesson ↗' : `${lessonCountFor(t.id)} lesson${lessonCountFor(t.id)===1?'':'s'}`}</span>
         </div>
       `).join('')}
     </div>
@@ -1823,7 +1824,12 @@ function attachClicks(){
 
   document.querySelectorAll('[data-topic]').forEach(el=>{
     el.addEventListener('click', ()=>{
-      goTo('topic', {section:'learn', topicId:el.dataset.topic});
+      const topic = topicById(el.dataset.topic);
+      if(topic && topic.externalUrl){
+        window.open(topic.externalUrl, '_blank');
+      }else{
+        goTo('topic', {section:'learn', topicId:el.dataset.topic});
+      }
     });
   });
   document.querySelectorAll('[data-lesson]').forEach(el=>{
