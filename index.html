@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mahlet Archive · ማኅሌት</title>
+<meta name="description" content="A bilingual Ethiopian Orthodox Tewahedo hymn archive — Amharic mezmur lyrics with transliteration and translation, teaching lessons on zema and traditional instruments, and recordings from Abune Gebremenfes Kidus / St. George Church, Hobart.">
+<link rel="canonical" href="https://mahlet-tas.org/">
+<meta property="og:title" content="Mahlet Archive · ማኅሌት">
+<meta property="og:description" content="A bilingual Ethiopian Orthodox Tewahedo hymn archive — lyrics, teaching, and recordings.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mahlet-tas.org/">
+<meta name="robots" content="index, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Noto+Serif+Ethiopic:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -407,6 +414,7 @@
         <button class="nav-tab" data-section="songs" id="tab-songs">Song Archive</button>
         <button class="nav-tab" data-section="learn" id="tab-learn">Learn Mezmur</button>
         <button class="nav-tab" data-section="recordings" id="tab-recordings">Service Recordings</button>
+        <button class="nav-tab" data-section="slides" id="tab-slides">Sunday Slides</button>
       </div>
     </div>
   </div>
@@ -425,6 +433,10 @@
   <button class="nav-tab bottom-nav-item" data-section="recordings">
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 10.5 21 8v8l-5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
     <span>Recordings</span>
+  </button>
+  <button class="nav-tab bottom-nav-item" data-section="slides">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <span>Slides</span>
   </button>
 </nav>
 
@@ -450,8 +462,10 @@ const CATEGORIES = [
 let SONGS = [];
 let state = { section:'songs', view:'home', categoryId:null, subcategoryId:null, songId:null, searchQuery:'',
               learnView:'home', topicId:null, lessonId:null, editLessonId:null,
-              recView:'home', recordingId:null, editRecordingId:null };
+              recView:'home', recordingId:null, editRecordingId:null,
+              slidesView:'home', slideId:null, editSlideId:null };
 let storageError = false;
+let SLIDES = [];
 
 const LESSON_TOPICS = [
   {id:'theory', en:'Mezmur Theory', am:'ትምህርተ ዜማ'},
@@ -941,6 +955,7 @@ async function loadSongs(){
   }
   await loadLessons();
   await loadRecordings();
+  await loadSlides();
   await runMigrations();
   render();
 }
@@ -987,6 +1002,24 @@ async function loadRecordings(){
 async function saveRecordings(){
   try{
     const res = await window.storage.set('recordings-db', JSON.stringify(RECORDINGS), true);
+    if(!res){ storageError = true; }
+  }catch(e){
+    storageError = true;
+  }
+}
+
+async function loadSlides(){
+  try{
+    const res = await window.storage.get('slides-db', true);
+    SLIDES = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    SLIDES = [];
+  }
+}
+
+async function saveSlides(){
+  try{
+    const res = await window.storage.set('slides-db', JSON.stringify(SLIDES), true);
     if(!res){ storageError = true; }
   }catch(e){
     storageError = true;
@@ -1056,6 +1089,15 @@ function isVideoFile(url){
 }
 
 function crumbTrail(){
+  if(state.section === 'slides'){
+    const parts = [{label:'Sunday Slides', view:'home', section:'slides'}];
+    if(state.slidesView==='detail'){
+      const s = SLIDES.find(x=>x.id===state.slideId);
+      if(s) parts.push({label: s.title || s.date, view:'detail', section:'slides'});
+    }
+    if(state.slidesView==='add'){ parts.push({label:'Add slides', view:'add', section:'slides'}); }
+    return parts;
+  }
   if(state.section === 'recordings'){
     const parts = [{label:'Service Recordings', view:'home', section:'recordings'}];
     if(state.recView==='detail'){
@@ -1097,18 +1139,26 @@ function crumbTrail(){
 
 function goTo(view, opts={}){
   const section = opts.section || state.section;
-  if(section === 'recordings'){
+  if(section === 'slides'){
+    state = { section:'slides', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
+              learnView:'home', topicId:null, lessonId:null, editLessonId:null,
+              recView:'home', recordingId:null, editRecordingId:null,
+              slidesView:view, slideId:null, editSlideId:null, searchQuery:'', ...opts };
+  }else if(section === 'recordings'){
     state = { section:'recordings', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
               learnView:'home', topicId:null, lessonId:null, editLessonId:null,
-              recView:view, recordingId:null, editRecordingId:null, searchQuery:'', ...opts };
+              recView:view, recordingId:null, editRecordingId:null,
+              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', ...opts };
   }else if(section === 'learn'){
     state = { section:'learn', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
               learnView:view, topicId:null, lessonId:null, editLessonId:null,
-              recView:'home', recordingId:null, editRecordingId:null, searchQuery:'', ...opts };
+              recView:'home', recordingId:null, editRecordingId:null,
+              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', ...opts };
   }else{
     state = { section:'songs', view:view, categoryId:null, subcategoryId:null, songId:null, editSongId:null,
               learnView:'home', topicId:null, lessonId:null, editLessonId:null,
-              recView:'home', recordingId:null, editRecordingId:null, searchQuery:'', ...opts };
+              recView:'home', recordingId:null, editRecordingId:null,
+              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', ...opts };
   }
   render();
   window.scrollTo({top:0, behavior:'smooth'});
@@ -1563,6 +1613,118 @@ function renderLearnResults(){
   `;
 }
 
+function renderSlidesHome(){
+  const list = SLIDES.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  return `
+    ${renderCrumbs()}
+    <p style="max-width:560px; color:var(--ink-soft); margin:-4px 0 20px; font-size:14px;">
+      Slides used for congregational singing at the end of Sunday mass, kept by date so previous weeks stay easy to find.
+    </p>
+    ${list.length===0 ? `
+      <div class="empty">
+        <p>No slides added yet.</p>
+        <button data-goto-add-slide>Add the first one</button>
+      </div>
+    ` : `
+      <div class="song-list">
+        ${list.map(s=>`
+          <div class="song-row" data-slide="${s.id}">
+            <div class="titles-sm">
+              <p class="am" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--gold);">${escapeHtml(s.date||'')}</p>
+              <p class="en" style="font-size:16px; color:var(--ink);">${escapeHtml(s.title||'Sunday Mass')}</p>
+            </div>
+            <div class="icons"><span>open ↗</span></div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+    <div class="fab"><button data-goto-add-slide>+ Add slides</button></div>
+  `;
+}
+
+function renderSlideDetail(){
+  const s = SLIDES.find(x=>x.id===state.slideId);
+  if(!s) return renderSlidesHome();
+  return `
+    ${renderCrumbs()}
+    <div class="detail-card">
+      <div class="detail-header">
+        <p class="am" style="font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--gold); letter-spacing:0.03em;">${escapeHtml(s.date||'')}</p>
+        <p class="en" style="font-size:20px; margin-top:4px;">${escapeHtml(s.title||'Sunday Mass')}</p>
+      </div>
+      ${s.notes ? `<div class="lesson-body">${formatProse(s.notes)}</div>` : ''}
+      ${s.slidesUrl ? `<div class="media"><a class="link" href="${escapeHtml(s.slidesUrl)}" target="_blank" rel="noopener">▶ Open Slides ↗</a></div>` : `<p style="color:var(--ink-soft); font-size:14px;">No slides link added yet.</p>`}
+      <div style="display:flex; gap:10px; margin-top:24px; border-top:1px solid var(--parchment-dark); padding-top:16px;">
+        <button class="secondary" id="edit-slide" data-id="${s.id}">Edit</button>
+        <button class="secondary" id="delete-slide" data-id="${s.id}" style="color:var(--red-dark); border-color:var(--red-dark);">Delete</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderSlideForm(){
+  const editing = state.editSlideId ? SLIDES.find(x=>x.id===state.editSlideId) : null;
+  const v = (field) => editing ? escapeHtml(editing[field]||'') : '';
+  const today = new Date().toISOString().slice(0,10);
+  return `
+    ${renderCrumbs()}
+    <h2>${editing ? 'Edit slides' : 'Add slides'}</h2>
+    ${storageError ? `<div class="error-msg">Something went wrong saving last time — try again.</div>` : ''}
+    <div class="detail-card">
+      <form class="add-form" id="slide-form">
+        <input type="hidden" name="editId" value="${editing ? editing.id : ''}" />
+        <div class="field-row">
+          <div>
+            <label>Date</label>
+            <input type="date" name="date" required value="${editing ? (editing.date||'') : today}" />
+          </div>
+          <div>
+            <label>Title / occasion (optional)</label>
+            <input name="title" placeholder="e.g. Sunday Mass, Timkat" value="${v('title')}" />
+          </div>
+        </div>
+        <div>
+          <label>Google Slides link</label>
+          <input name="slidesUrl" placeholder="https://docs.google.com/presentation/..." value="${v('slidesUrl')}" required />
+        </div>
+        <div>
+          <label>Notes (optional)</label>
+          <textarea name="notes" placeholder="Any notes about this week's songs...">${v('notes')}</textarea>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button type="submit">${editing ? 'Save changes' : 'Save slides'}</button>
+          <button type="button" class="secondary" id="cancel-add-slide">Cancel</button>
+        </div>
+      </form>
+    </div>
+  `;
+}
+
+function renderSlidesResults(){
+  const q = state.searchQuery.trim().toLowerCase();
+  const results = SLIDES.filter(s=>{
+    const hay = [s.date, s.title, s.notes].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  return `
+    <div class="crumbs"><span data-crumb="0">Sunday Slides</span><span class="sep">/</span><span style="color:var(--ink);">Search: "${escapeHtml(state.searchQuery)}"</span></div>
+    <h2>${results.length} result${results.length===1?'':'s'}</h2>
+    ${results.length===0 ? `<div class="empty"><p>Nothing matched that search.</p></div>` : `
+      <div class="song-list">
+        ${results.map(s=>`
+          <div class="song-row" data-slide="${s.id}">
+            <div class="titles-sm">
+              <p class="am" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--gold);">${escapeHtml(s.date||'')}</p>
+              <p class="en" style="font-size:16px; color:var(--ink);">${escapeHtml(s.title||'Sunday Mass')}</p>
+            </div>
+            <div class="icons"><span>open ↗</span></div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
 function renderRecordingsHome(){
   const list = RECORDINGS.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
   return `
@@ -1709,9 +1871,16 @@ function render(){
     ? 'Search lessons by title or topic — Amharic or English'
     : state.section==='recordings'
     ? 'Search recordings by date or note'
+    : state.section==='slides'
+    ? 'Search slides by date or title'
     : 'Search by title, lyric, or tag — Amharic or English';
 
-  if(state.section === 'recordings'){
+  if(state.section === 'slides'){
+    if(state.searchQuery){ app.innerHTML = renderSlidesResults(); }
+    else if(state.slidesView==='home'){ app.innerHTML = renderSlidesHome(); }
+    else if(state.slidesView==='detail'){ app.innerHTML = renderSlideDetail(); }
+    else if(state.slidesView==='add'){ app.innerHTML = renderSlideForm(); }
+  }else if(state.section === 'recordings'){
     if(state.searchQuery){ app.innerHTML = renderRecordingsResults(); }
     else if(state.recView==='home'){ app.innerHTML = renderRecordingsHome(); }
     else if(state.recView==='detail'){ app.innerHTML = renderRecordingDetail(); }
@@ -1954,6 +2123,64 @@ function attachClicks(){
       RECORDINGS = RECORDINGS.filter(r=>r.id!==deleteRecordingBtn.dataset.id);
       await saveRecordings();
       goTo('home', {section:'recordings'});
+    });
+  }
+
+  document.querySelectorAll('[data-slide]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.getElementById('global-search').value = '';
+      goTo('detail', {section:'slides', slideId:el.dataset.slide});
+    });
+  });
+  document.querySelectorAll('[data-goto-add-slide]').forEach(el=>{
+    el.addEventListener('click', ()=> goTo('add', {section:'slides'}));
+  });
+  const cancelSlideBtn = document.getElementById('cancel-add-slide');
+  if(cancelSlideBtn) cancelSlideBtn.addEventListener('click', ()=> goTo('home', {section:'slides'}));
+
+  const slideForm = document.getElementById('slide-form');
+  if(slideForm){
+    slideForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(slideForm);
+      const editId = fd.get('editId');
+      const data = {
+        date: fd.get('date')||'',
+        title: fd.get('title')||'',
+        notes: fd.get('notes')||'',
+        slidesUrl: fd.get('slidesUrl')||''
+      };
+      const submitBtn = slideForm.querySelector('button[type="submit"]');
+      submitBtn.textContent = 'Saving…';
+      submitBtn.disabled = true;
+      let target;
+      if(editId){
+        const idx = SLIDES.findIndex(x=>x.id===editId);
+        if(idx>-1){ SLIDES[idx] = {...SLIDES[idx], ...data}; target = SLIDES[idx]; }
+      }else{
+        target = {id: genId(), dateAdded: new Date().toISOString(), ...data};
+        SLIDES.push(target);
+      }
+      await saveSlides();
+      goTo('detail', {section:'slides', slideId:target.id});
+    });
+  }
+
+  const editSlideBtn = document.getElementById('edit-slide');
+  if(editSlideBtn){
+    editSlideBtn.addEventListener('click', ()=>{
+      const s = SLIDES.find(x=>x.id===editSlideBtn.dataset.id);
+      state = {...state, section:'slides', slidesView:'add', editSlideId: s.id};
+      render();
+    });
+  }
+  const deleteSlideBtn = document.getElementById('delete-slide');
+  if(deleteSlideBtn){
+    deleteSlideBtn.addEventListener('click', async ()=>{
+      if(!confirm('Delete these slides? This cannot be undone.')) return;
+      SLIDES = SLIDES.filter(x=>x.id!==deleteSlideBtn.dataset.id);
+      await saveSlides();
+      goTo('home', {section:'slides'});
     });
   }
 }
