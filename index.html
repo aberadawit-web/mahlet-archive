@@ -753,6 +753,24 @@ const SEED_RECORDING_20250330 = {
   dateAdded: new Date().toISOString()
 };
 
+const SEED_SLIDE_20260809 = {
+  id: 'slide-2026-08-09',
+  date: '2026-08-09',
+  title: 'Sunday Service Hymns: Balewletaye, Azekri & Wefe Senbita',
+  notes: '',
+  slidesUrl: 'https://docs.google.com/presentation/d/1fuMpD81LmY0xV9_zFT4R4ngtSKG_J6Hm0enXUp0SyWc/edit?usp=drivesdk',
+  dateAdded: new Date().toISOString()
+};
+
+const SLIDE_MIGRATIONS = [
+  {
+    id: 'add-slide-2026-08-09-v1',
+    apply(slides){
+      if(!slides.find(s=>s.id==='slide-2026-08-09')){ slides.push(SEED_SLIDE_20260809); }
+    }
+  }
+];
+
 const RECORDING_MIGRATIONS = [
   {
     id: 'add-recording-2025-03-30-v1',
@@ -913,6 +931,7 @@ async function runMigrations(){
   let songsChanged = false;
   let lessonsChanged = false;
   let recordingsChanged = false;
+  let slidesChanged = false;
   for(const m of MIGRATIONS){
     if(!applied.includes(m.id)){
       m.apply(SONGS);
@@ -934,10 +953,18 @@ async function runMigrations(){
       recordingsChanged = true;
     }
   }
+  for(const m of SLIDE_MIGRATIONS){
+    if(!applied.includes(m.id)){
+      m.apply(SLIDES);
+      applied.push(m.id);
+      slidesChanged = true;
+    }
+  }
   if(songsChanged){ await saveSongs(); }
   if(lessonsChanged){ await saveLessons(); }
   if(recordingsChanged){ await saveRecordings(); }
-  if(songsChanged || lessonsChanged || recordingsChanged){
+  if(slidesChanged){ await saveSlides(); }
+  if(songsChanged || lessonsChanged || recordingsChanged || slidesChanged){
     try{ await window.storage.set('applied-migrations', JSON.stringify(applied), true); }catch(e){}
   }
 }
