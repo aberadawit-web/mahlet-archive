@@ -986,6 +986,7 @@ async function loadSongs(){
   await loadRecordings();
   await loadSlides();
   await runMigrations();
+  parseHashIntoState();
   render();
 }
 
@@ -1910,6 +1911,107 @@ function renderRecordingsResults(){
   `;
 }
 
+function updateDocumentTitle(){
+  let title = 'Mahlet Archive · ማኅሌት';
+  if(state.section==='songs'){
+    if(state.view==='detail'){
+      const song = SONGS.find(s=>s.id===state.songId);
+      if(song) title = `${song.titleEn || song.titleAm} · Mahlet Archive`;
+    }else if(state.view==='category'){
+      const cat = catById(state.categoryId);
+      if(cat){
+        const sub = state.subcategoryId ? subById(cat, state.subcategoryId) : null;
+        title = `${sub ? sub.en : cat.en} · Mahlet Archive`;
+      }
+    }else{
+      title = 'Song Archive · Mahlet Archive';
+    }
+  }else if(state.section==='learn'){
+    if(state.learnView==='detail'){
+      const lesson = LESSONS.find(l=>l.id===state.lessonId);
+      if(lesson) title = `${lesson.titleEn || lesson.titleAm} · Learn Mezmur`;
+    }else if(state.learnView==='topic'){
+      const topic = topicById(state.topicId);
+      if(topic) title = `${topic.en} · Learn Mezmur`;
+    }else{
+      title = 'Learn Mezmur · Mahlet Archive';
+    }
+  }else if(state.section==='recordings'){
+    if(state.recView==='detail' && state.recordingsUnlocked){
+      const rec = RECORDINGS.find(r=>r.id===state.recordingId);
+      if(rec) title = `${rec.title || rec.date} · Service Recordings`;
+    }else{
+      title = 'Service Recordings · Mahlet Archive';
+    }
+  }else if(state.section==='slides'){
+    if(state.slidesView==='detail'){
+      const s = SLIDES.find(x=>x.id===state.slideId);
+      if(s) title = `${s.title || s.date} · Sunday Slides`;
+    }else{
+      title = 'Sunday Slides · Mahlet Archive';
+    }
+  }
+  document.title = title;
+}
+
+function updateUrlHash(){
+  let hash = '/';
+  if(state.section==='songs'){
+    if(state.view==='detail' && state.songId){ hash = `/songs/song/${state.songId}`; }
+    else if(state.view==='category' && state.categoryId){ hash = `/songs/category/${state.categoryId}` + (state.subcategoryId ? `/${state.subcategoryId}` : ''); }
+    else{ hash = '/songs'; }
+  }else if(state.section==='learn'){
+    if(state.learnView==='detail' && state.lessonId){ hash = `/learn/lesson/${state.lessonId}`; }
+    else if(state.learnView==='topic' && state.topicId){ hash = `/learn/topic/${state.topicId}`; }
+    else{ hash = '/learn'; }
+  }else if(state.section==='recordings'){
+    if(state.recView==='detail' && state.recordingId){ hash = `/recordings/${state.recordingId}`; }
+    else{ hash = '/recordings'; }
+  }else if(state.section==='slides'){
+    if(state.slidesView==='detail' && state.slideId){ hash = `/slides/${state.slideId}`; }
+    else{ hash = '/slides'; }
+  }
+  const newUrl = location.pathname + location.search + '#' + hash;
+  try{ history.replaceState(null, '', newUrl); }catch(e){}
+}
+
+function parseHashIntoState(){
+  const raw = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
+  if(!raw) return;
+  const parts = raw.split('/').filter(Boolean);
+  if(parts[0]==='songs'){
+    if(parts[1]==='category' && parts[2]){
+      state = {...state, section:'songs', view:'category', categoryId:parts[2], subcategoryId:parts[3]||null};
+    }else if(parts[1]==='song' && parts[2]){
+      const song = SONGS.find(s=>s.id===parts[2]);
+      if(song){ state = {...state, section:'songs', view:'detail', songId:song.id, categoryId:song.category, subcategoryId:song.subcategory||null}; }
+    }else{
+      state = {...state, section:'songs', view:'home'};
+    }
+  }else if(parts[0]==='learn'){
+    if(parts[1]==='topic' && parts[2]){
+      state = {...state, section:'learn', learnView:'topic', topicId:parts[2]};
+    }else if(parts[1]==='lesson' && parts[2]){
+      const lesson = LESSONS.find(l=>l.id===parts[2]);
+      if(lesson){ state = {...state, section:'learn', learnView:'detail', lessonId:lesson.id, topicId:lesson.topic}; }
+    }else{
+      state = {...state, section:'learn', learnView:'home'};
+    }
+  }else if(parts[0]==='recordings'){
+    if(parts[1]){
+      state = {...state, section:'recordings', recView:'detail', recordingId:parts[1]};
+    }else{
+      state = {...state, section:'recordings', recView:'home'};
+    }
+  }else if(parts[0]==='slides'){
+    if(parts[1]){
+      state = {...state, section:'slides', slidesView:'detail', slideId:parts[1]};
+    }else{
+      state = {...state, section:'slides', slidesView:'home'};
+    }
+  }
+}
+
 function render(){
   const app = document.getElementById('app');
   document.querySelectorAll('.nav-tab').forEach(el=>{
@@ -1956,6 +2058,8 @@ function render(){
   }
   attachCrumbEvents();
   attachClicks();
+  updateDocumentTitle();
+  updateUrlHash();
 }
 
 function attachClicks(){
