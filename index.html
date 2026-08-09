@@ -463,7 +463,9 @@ let SONGS = [];
 let state = { section:'songs', view:'home', categoryId:null, subcategoryId:null, songId:null, searchQuery:'',
               learnView:'home', topicId:null, lessonId:null, editLessonId:null,
               recView:'home', recordingId:null, editRecordingId:null,
-              slidesView:'home', slideId:null, editSlideId:null };
+              slidesView:'home', slideId:null, editSlideId:null,
+              recordingsUnlocked: sessionStorage.getItem('recordings-unlocked')==='true' };
+const RECORDINGS_PASSWORD = 'mezmur';
 let storageError = false;
 let SLIDES = [];
 
@@ -1166,26 +1168,27 @@ function crumbTrail(){
 
 function goTo(view, opts={}){
   const section = opts.section || state.section;
+  const keepUnlocked = state.recordingsUnlocked;
   if(section === 'slides'){
     state = { section:'slides', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
               learnView:'home', topicId:null, lessonId:null, editLessonId:null,
               recView:'home', recordingId:null, editRecordingId:null,
-              slidesView:view, slideId:null, editSlideId:null, searchQuery:'', ...opts };
+              slidesView:view, slideId:null, editSlideId:null, searchQuery:'', recordingsUnlocked:keepUnlocked, ...opts };
   }else if(section === 'recordings'){
     state = { section:'recordings', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
               learnView:'home', topicId:null, lessonId:null, editLessonId:null,
               recView:view, recordingId:null, editRecordingId:null,
-              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', ...opts };
+              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', recordingsUnlocked:keepUnlocked, ...opts };
   }else if(section === 'learn'){
     state = { section:'learn', view:'home', categoryId:null, subcategoryId:null, songId:null, editSongId:null,
               learnView:view, topicId:null, lessonId:null, editLessonId:null,
               recView:'home', recordingId:null, editRecordingId:null,
-              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', ...opts };
+              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', recordingsUnlocked:keepUnlocked, ...opts };
   }else{
     state = { section:'songs', view:view, categoryId:null, subcategoryId:null, songId:null, editSongId:null,
               learnView:'home', topicId:null, lessonId:null, editLessonId:null,
               recView:'home', recordingId:null, editRecordingId:null,
-              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', ...opts };
+              slidesView:'home', slideId:null, editSlideId:null, searchQuery:'', recordingsUnlocked:keepUnlocked, ...opts };
   }
   render();
   window.scrollTo({top:0, behavior:'smooth'});
@@ -1752,6 +1755,24 @@ function renderSlidesResults(){
   `;
 }
 
+function renderRecordingsLock(){
+  return `
+    ${renderCrumbs()}
+    <div class="detail-card" style="max-width:380px; margin:0 auto; text-align:center;">
+      <p class="am" style="font-size:20px; margin:0 0 8px;">Service Recordings</p>
+      <p style="color:var(--ink-soft); font-size:14px; margin:0 0 20px;">
+        Photos and videos from services are shared with the group only. Enter the password to view.
+      </p>
+      <form id="recordings-unlock-form" style="display:flex; flex-direction:column; gap:12px;">
+        <input type="password" name="password" placeholder="Password" required
+          style="padding:10px 12px; border:1px solid var(--parchment-dark); border-radius:4px; font-family:'Lora',serif; font-size:14px;" />
+        <button type="submit">Unlock</button>
+        <p id="unlock-error" style="color:var(--red-dark); font-size:13px; display:none;">Incorrect password — try again.</p>
+      </form>
+    </div>
+  `;
+}
+
 function renderRecordingsHome(){
   const list = RECORDINGS.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
   return `
@@ -1908,7 +1929,9 @@ function render(){
     else if(state.slidesView==='detail'){ app.innerHTML = renderSlideDetail(); }
     else if(state.slidesView==='add'){ app.innerHTML = renderSlideForm(); }
   }else if(state.section === 'recordings'){
-    if(state.searchQuery){ app.innerHTML = renderRecordingsResults(); }
+    if(!state.recordingsUnlocked){
+      app.innerHTML = renderRecordingsLock();
+    } else if(state.searchQuery){ app.innerHTML = renderRecordingsResults(); }
     else if(state.recView==='home'){ app.innerHTML = renderRecordingsHome(); }
     else if(state.recView==='detail'){ app.innerHTML = renderRecordingDetail(); }
     else if(state.recView==='add'){ app.innerHTML = renderRecordingForm(); }
@@ -2208,6 +2231,21 @@ function attachClicks(){
       SLIDES = SLIDES.filter(x=>x.id!==deleteSlideBtn.dataset.id);
       await saveSlides();
       goTo('home', {section:'slides'});
+    });
+  }
+
+  const unlockForm = document.getElementById('recordings-unlock-form');
+  if(unlockForm){
+    unlockForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(unlockForm);
+      if(fd.get('password') === RECORDINGS_PASSWORD){
+        sessionStorage.setItem('recordings-unlocked', 'true');
+        state.recordingsUnlocked = true;
+        render();
+      }else{
+        document.getElementById('unlock-error').style.display = 'block';
+      }
     });
   }
 }
