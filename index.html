@@ -446,6 +446,42 @@
 
 <footer class="site">Community hymn archive · shared with everyone who has this link</footer>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+  firebase.initializeApp({
+    apiKey: "AIzaSyDlkF7gKIkBSRX3dv_a7q0viVtoCvTIuUE",
+    authDomain: "mahlet-archive.firebaseapp.com",
+    projectId: "mahlet-archive",
+    storageBucket: "mahlet-archive.firebasestorage.app",
+    messagingSenderId: "385151002207",
+    appId: "1:385151002207:web:8746a66c73fe693bda9dea"
+  });
+  const _mahletDb = firebase.firestore();
+  const _mahletCollection = _mahletDb.collection('mahlet_data');
+
+  window.storage = {
+    async get(key, shared){
+      const snap = await _mahletCollection.doc(key).get();
+      if(!snap.exists){ throw new Error('Key not found: ' + key); }
+      return { key, value: snap.data().value, shared: !!shared };
+    },
+    async set(key, value, shared){
+      await _mahletCollection.doc(key).set({ value: value });
+      return { key, value, shared: !!shared };
+    },
+    async delete(key, shared){
+      await _mahletCollection.doc(key).delete();
+      return { key, deleted: true, shared: !!shared };
+    },
+    async list(prefix, shared){
+      const snaps = await _mahletCollection.get();
+      const keys = [];
+      snaps.forEach(doc=>{ if(!prefix || doc.id.startsWith(prefix)) keys.push(doc.id); });
+      return { keys, prefix, shared: !!shared };
+    }
+  };
+</script>
 <script>
 const CATEGORIES = [
   {id:'god', en:'Songs about God', am:'መዝሙር ስለ እግዚአብሔር'},
